@@ -248,6 +248,11 @@ td.nm .th{width:28px;height:28px;border-radius:5px;background:#EDEFF3;display:gr
 .stlist{display:flex;flex-direction:column;gap:8px}
 .strow{border:1px solid var(--line2);background:#fff;border-radius:10px;height:50px;padding:0 14px;font-size:14.5px;font-weight:700;text-align:left;color:var(--ink)}
 .strow.on{border-color:var(--nagi);background:#FDF2F5;color:var(--nagi)}
+
+.resetbox{max-width:520px;margin:26px auto 0;text-align:center}
+.resetbtn{border:1px solid var(--line2);background:#fff;border-radius:10px;height:46px;padding:0 20px;font-size:14px;font-weight:700;color:var(--nagi);width:100%;max-width:320px}
+.resetbtn:active{background:#FDF2F5}
+.resethint{font-size:11.5px;color:var(--mute);line-height:1.8;margin-top:10px}
 </style>
 
 <div class="app" id="app"></div>
@@ -317,7 +322,7 @@ const GUESTS=300;
 /* ---------- 表示言語（実物と同じ4言語） ---------- */
 const LANGS=[['JA','🇯🇵'],['EN','🇺🇸'],['VI','🇻🇳'],['MY','🇲🇲']];
 const T={
- JA:{steps:['① 通知','② 選択','③ 在庫入力','④ 確認'],dt:'火曜日・2026年9月8日 08:13',
+ JA:{reset:'入力を消して最初から',resetHint:'練習をやり直すときに押してください。入力した在庫と数量をすべて消します。',resetDone:'入力を消しました。最初から練習できます',resetAsk:'入力した在庫と数量をすべて消して、最初からやり直しますか？',practice:'練習をやり直す',steps:['① 通知','② 選択','③ 在庫入力','④ 確認'],dt:'火曜日・2026年9月8日 08:13',
   h1:'発注の時間です',hsub:'火曜日・2026年9月8日 08:12・在庫を入力 → 発注数を自動計算 → 送信',start:'発注を開始',yst:'昨日の評価',
   todayStatus:'本日のステータス',food:'食材',cons:'消耗品',notyet:'まだ発注されていません',ordered:'発注済み',sent:'送信済み',notstart:'未開始',none:'対象なし',
   q1:'今日はどちらを発注しますか？',q1s:'発注タイプを選んでください。タイプによって発注タイミングが異なります。',
@@ -333,7 +338,7 @@ const T={
   saveHint:'⏱ 今すぐ承認しない場合は、入力内容を保存して16:30に自動発注できます。',saveBtn:'保存して16:30に自動発注',editable:'16:30まで何度でも編集できます。',submit:'📦 発注申請',
   doneT:'発注申請を送信しました',doneS:(a,b)=>`${a} 品目・${b} 社ぶんを承認しました。<br>各仕入先の締切時刻（16:30 / 14:30）に自動で発注されます。<br>16:30 までは何度でも編集できます。`,home:'ホームへ戻る',
   pickStore:'店舗を選ぶ',tSaved:'保存しました。16:30に自動発注されます（再現版）',tGuest:'来客数を変えると発注数の目安が変わります（再現版）',tYst:'昨日の発注の評価を表示します（再現版）',tNeed:'すべての仕入先の在庫を入力してください'},
- EN:{steps:['① Notice','② Type','③ Stock','④ Confirm'],dt:'Tue, Sep 8, 2026 08:13',
+ EN:{reset:'Clear entries and start over',resetHint:'Tap this to practise again. It clears every stock count and quantity you entered.',resetDone:'Entries cleared. You can practise from the start',resetAsk:'Clear all stock counts and quantities and start over?',practice:'Practise again',steps:['① Notice','② Type','③ Stock','④ Confirm'],dt:'Tue, Sep 8, 2026 08:13',
   h1:'Time to order',hsub:'Tue, Sep 8, 2026 08:12 · Enter stock → auto-calculate → send',start:'Start ordering',yst:"Yesterday's review",
   todayStatus:"Today's status",food:'Food',cons:'Supplies',notyet:'Not ordered yet',ordered:'Ordered',sent:'Sent',notstart:'Not started',none:'None',
   q1:'What will you order today?',q1s:'Choose an order type. Timing differs by type.',
@@ -349,7 +354,7 @@ const T={
   saveHint:'⏱ If you do not approve now, your input can be saved and auto-ordered at 16:30.',saveBtn:'Save & auto-order at 16:30',editable:'Editable any time until 16:30.',submit:'📦 Submit order',
   doneT:'Order submitted',doneS:(a,b)=>`Approved ${a} items from ${b} suppliers.<br>They will be sent at each supplier cut-off (16:30 / 14:30).<br>Editable until 16:30.`,home:'Back to home',
   pickStore:'Choose store',tSaved:'Saved. It will be auto-ordered at 16:30 (demo)',tGuest:'Changing guests changes the suggested amounts (demo)',tYst:"Shows yesterday's review (demo)",tNeed:'Please enter stock for every supplier'},
- VI:{steps:['① Thông báo','② Loại','③ Tồn kho','④ Xác nhận'],dt:'Thứ Ba, 08/09/2026 08:13',
+ VI:{reset:'Xoá dữ liệu và bắt đầu lại',resetHint:'Chạm vào đây để luyện tập lại. Toàn bộ tồn kho và số lượng đã nhập sẽ bị xoá.',resetDone:'Đã xoá dữ liệu. Bạn có thể luyện lại từ đầu',resetAsk:'Xoá toàn bộ tồn kho và số lượng đã nhập rồi bắt đầu lại?',practice:'Luyện lại',steps:['① Thông báo','② Loại','③ Tồn kho','④ Xác nhận'],dt:'Thứ Ba, 08/09/2026 08:13',
   h1:'Đã đến giờ đặt hàng',hsub:'Thứ Ba, 08/09/2026 08:12 · Nhập tồn kho → tự động tính → gửi',start:'Bắt đầu đặt hàng',yst:'Đánh giá hôm qua',
   todayStatus:'Trạng thái hôm nay',food:'Thực phẩm',cons:'Vật tư',notyet:'Chưa đặt hàng',ordered:'Đã đặt',sent:'Đã gửi',notstart:'Chưa bắt đầu',none:'Không có',
   q1:'Hôm nay bạn đặt loại nào?',q1s:'Chọn loại đặt hàng. Thời điểm gửi khác nhau theo loại.',
@@ -365,7 +370,7 @@ const T={
   saveHint:'⏱ Nếu chưa duyệt ngay, có thể lưu và tự động gửi lúc 16:30.',saveBtn:'Lưu & tự động gửi 16:30',editable:'Sửa được đến 16:30.',submit:'📦 Gửi đơn hàng',
   doneT:'Đã gửi đơn hàng',doneS:(a,b)=>`Đã duyệt ${a} mặt hàng của ${b} nhà cung cấp.<br>Đơn sẽ gửi theo hạn từng nhà (16:30 / 14:30).<br>Sửa được đến 16:30.`,home:'Về trang chính',
   pickStore:'Chọn cửa hàng',tSaved:'Đã lưu. Sẽ tự động gửi lúc 16:30 (bản demo)',tGuest:'Đổi số khách sẽ đổi lượng đề xuất (bản demo)',tYst:'Hiển thị đánh giá hôm qua (bản demo)',tNeed:'Vui lòng nhập tồn kho cho tất cả nhà cung cấp'},
- MY:{steps:['① အသိပေးချက်','② အမျိုးအစား','③ လက်ကျန်','④ အတည်ပြု'],dt:'အင်္ဂါ၊ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:13',
+ MY:{reset:'ထည့်ထားသည်ကို ဖျက်ပြီး အစမှ',resetHint:'ပြန်လေ့ကျင့်လိုပါက ဒါကို ထိပါ။ ထည့်ထားသော လက်ကျန်နှင့် အရေအတွက် အားလုံး ပျက်မည်။',resetDone:'ဖျက်ပြီးပါပြီ။ အစမှ ပြန်လေ့ကျင့်နိုင်ပါသည်',resetAsk:'ထည့်ထားသော လက်ကျန်နှင့် အရေအတွက် အားလုံးကို ဖျက်ပြီး အစမှ ပြန်စမလား',practice:'ပြန်လေ့ကျင့်ရန်',steps:['① အသိပေးချက်','② အမျိုးအစား','③ လက်ကျန်','④ အတည်ပြု'],dt:'အင်္ဂါ၊ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:13',
   h1:'မှာယူရန် အချိန်ရောက်ပါပြီ',hsub:'အင်္ဂါ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:12 · လက်ကျန်ထည့် → အလိုအလျောက်တွက် → ပို့',start:'မှာယူမှု စတင်ရန်',yst:'မနေ့ အဆင့်သတ်မှတ်ချက်',
   todayStatus:'ယနေ့ အခြေအနေ',food:'စားသောက်ကုန်',cons:'အသုံးအဆောင်',notyet:'မမှာယူရသေးပါ',ordered:'မှာယူပြီး',sent:'ပို့ပြီး',notstart:'မစတင်သေး',none:'မရှိပါ',
   q1:'ယနေ့ ဘယ်အမျိုးအစား မှာမလဲ',q1s:'မှာယူမည့် အမျိုးအစား ရွေးပါ။ အမျိုးအစားအလိုက် ပို့သည့်အချိန် မတူပါ။',
@@ -427,7 +432,8 @@ function home(){
  <button class="hero" onclick="goStep('type')"><div class="pl">＋</div><div class="lb">${esc(t('start'))}</div></button>
  <div class="lab">${esc(t('todayStatus'))}</div>
  <div class="list"><div class="row"><div class="ic">🥬</div><div class="nm">${esc(t('food'))}</div><div class="ms">${esc(st[0])}</div><div class="st">${esc(st[1])}</div></div>
- <div class="row"><div class="ic">✦</div><div class="nm">${esc(t('cons'))}</div><div class="ms">${esc(t('notyet'))}</div><div class="st">${esc(t('none'))}</div></div></div></div>`;
+ <div class="row"><div class="ic">✦</div><div class="nm">${esc(t('cons'))}</div><div class="ms">${esc(t('notyet'))}</div><div class="st">${esc(t('none'))}</div></div></div>
+ ${S.submitted||Object.keys(S.stock).length?`<div class="resetbox"><button class="resetbtn" onclick="resetAll()">🗑 ${esc(t('reset'))}</button><div class="resethint">${esc(t('resetHint'))}</div></div>`:''}</div>`;
 }
 function typeSel(){
  return `<div class="wrap" style="max-width:1000px"><div style="text-align:center"><h1>${esc(t('q1'))}</h1><div class="sub">${esc(t('q1s'))}</div></div>
@@ -491,7 +497,8 @@ function confirmView(){
 function doneView(){
  return `<div class="done-w"><div class="ck">✓</div><h2>${esc(t('doneT'))}</h2>
  <p>${t('doneS',orderCount(),supWithOrder())}</p>
- <button class="btn pri" style="max-width:240px;margin:22px auto 0" onclick="S.step='home';render()">${esc(t('home'))}</button></div>`;
+ <button class="btn pri" style="max-width:240px;margin:22px auto 0" onclick="S.step='home';render()">${esc(t('home'))}</button>
+ <div class="resetbox"><button class="resetbtn" onclick="resetAll()">🗑 ${esc(t('reset'))}</button><div class="resethint">${esc(t('resetHint'))}</div></div></div>`;
 }
 /* ============ 操作 ============ */
 function goStep(k){if(k==='input'&&!S.type)S.type='food';if(k==='confirm'&&!allDone()){toast(t('tNeed'));return}S.step=k;window.scrollTo(0,0);render()}
@@ -501,6 +508,7 @@ function setFinal(i,v){let n=parseInt(String(v).replace(/[^0-9]/g,''),10);if(isN
 function bumpFinal(i,d){setFinal(i,(finalOf(i)||0)+d)}
 function nextSup(){if(S.sup<SUPPLIERS.length-1){S.sup++;window.scrollTo(0,0);render()}else goStep('confirm')}
 function prevSup(){if(S.sup>0){S.sup--;window.scrollTo(0,0);render()}else goStep('type')}
+function resetAll(){if(!confirm(t('resetAsk')))return;S.stock={};S.final={};S.submitted=false;S.type=null;S.sup=0;S.step='home';window.scrollTo(0,0);render();toast(t('resetDone'))}
 function submitOrder(){S.submitted=true;S.step='done';window.scrollTo(0,0);render();}
 function storeSheet(){return `<div class="veil" onclick="if(event.target===this){S.sheet=null;render()}"><div class="sheet"><div class="grab"></div><div class="sh-body">
  <div class="sh-ttl">${esc(t('pickStore'))}</div>
@@ -509,6 +517,6 @@ function storeSheet(){return `<div class="veil" onclick="if(event.target===this)
 function pickStoreId(id){localStorage.setItem('nagi_store',id);const u=new URL(location.href);u.searchParams.set('store',id);location.href=u.toString()}
 function render(){$('app').innerHTML=header()+(S.step==='home'?home():S.step==='type'?typeSel():S.step==='input'?inputView():S.step==='confirm'?confirmView():doneView())+(S.sheet==='store'?storeSheet():'');
  document.querySelectorAll('input[type=range]').forEach(r=>{const set=()=>r.style.setProperty('--p',(r.value/r.max*100)+'%');set();r.addEventListener('input',set)})}
-Object.assign(window,{goStep,setStock,bump,setFinal,bumpFinal,nextSup,prevSup,submitOrder,render,S,toast,setLang,pickStoreId,t});
+Object.assign(window,{resetAll,goStep,setStock,bump,setFinal,bumpFinal,nextSup,prevSup,submitOrder,render,S,toast,setLang,pickStoreId,t});
 render();
 </script>
