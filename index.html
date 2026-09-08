@@ -239,28 +239,6 @@ td.nm .th{width:28px;height:28px;border-radius:5px;background:#EDEFF3;display:gr
   .done-w{margin:36px 12px;padding:30px 20px}
 }
 
-/* ---- 操作を軽くするための追加 ---- */
-.prog{width:min(100%,540px);margin:0 0 12px}
-.prog .bar{height:5px;border-radius:3px;background:#E7EAEE;overflow:hidden}
-.prog .bar i{display:block;height:100%;background:var(--green);border-radius:3px;transition:width .25s ease}
-.prog .tx{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mute);margin-top:6px}
-.prog .tx b{color:var(--ink);font-weight:700}
-.presets{display:flex;gap:6px;margin:2px 0 10px;flex-wrap:wrap}
-.presets button{flex:1;min-width:44px;height:38px;border-radius:9px;border:1px solid var(--line2);background:#fff;font-size:14px;font-weight:900;color:var(--ink2)}
-.presets button.on{background:var(--green);border-color:var(--green);color:#fff}
-.presets button.zero{color:var(--mute)}
-.item.done{opacity:.8}
-.item.done .ibody{display:none}
-.item.done .itop{padding:10px 12px;align-items:center}
-.item.done .ph{width:40px;height:34px;font-size:15px}
-.item.done .iname{font-size:13.5px}
-.dsum{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink2);white-space:nowrap}
-.dsum b{font-size:15px;font-weight:900;color:var(--nagi)}
-.dsum .re{border:1px solid var(--line2);border-radius:7px;height:28px;padding:0 10px;font-size:11.5px;font-weight:700;color:var(--ink2);background:#fff}
-.jump{position:fixed;right:14px;bottom:86px;z-index:19;background:#141519;color:#fff;border-radius:22px;height:44px;padding:0 16px;font-size:13px;font-weight:700;box-shadow:0 8px 20px -8px rgba(0,0,0,.5);display:flex;align-items:center;gap:7px}
-.hint{width:min(100%,540px);background:#F2F9F5;border:1px solid #DAEEE4;border-radius:9px;padding:10px 13px;font-size:12px;color:#1B5E20;margin-bottom:12px}
-.hint b{font-weight:700}
-.skipall{background:#fff;border:1px solid var(--line2);border-radius:9px;height:34px;padding:0 12px;font-size:12px;font-weight:700;color:var(--ink2)}
 
 .veil{position:fixed;inset:0;background:rgba(20,30,60,.3);z-index:50;display:flex;align-items:flex-end;justify-content:center}
 .sheet{width:100%;max-width:520px;background:#fff;border-radius:18px 18px 0 0;max-height:80dvh;overflow:auto;box-shadow:0 -8px 30px rgba(0,0,0,.2)}
@@ -345,9 +323,8 @@ const T={
   q1:'今日はどちらを発注しますか？',q1s:'発注タイプを選んでください。タイプによって発注タイミングが異なります。',
   foodDesc:'野菜・肉・調味料など<br>食材の発注',consDesc:'箸・エプロンなど<br>消耗品の発注',auto:'14:30 自動発注',noItems:'この種別の品目はありません',
   timing:'📋 発注タイミングの違い',timing1:'<b>消耗品</b>：確定ボタンを押した瞬間に発注。修正は確定前のみ可能。',timing2:'<b>食材</b>：14:30に自動発注。それまでは何度でも編集できます。14:30以降は即時発注になります。',
-  back:'← 戻る',supList:'本日の発注先',items:'品目',enterStock:'在庫数を入力してください',guests:'本日予想来客数:',change:'変更',fillRest:'残りを一括入力',
-  entered:'品目 入力済み',remainN:n=>`あと ${n} 品目`,supDone:'✓ この仕入先は完了',hint:'💡 <b>数字を押すだけ</b>で在庫が入ります。使い切った品は <b>0</b>、残っている品は近い数字を押してください。',
-  par:'定数',nextD:'次の納品',stock:'在庫',order:'発注',noOrder:'発注なし',fix:'直す',left:'残り',ok:'OK',warn:'注意',crit:'逼迫',
+  back:'← 戻る',supList:'本日の発注先',items:'品目',enterStock:'在庫数を入力してください',guests:'本日予想来客数:',change:'変更',
+  par:'定数',nextD:'次の納品',stock:'在庫',order:'発注',left:'残り',ok:'OK',warn:'注意',crit:'逼迫',
   nextSup:'次の仕入先へ →',toConfirm:'確認へ進む →',backBtn:'戻る',
   c1:'発注内容の確認',c1s:'数量を確認し、責任者として承認してください。',deadline:'🚨 早い締切: 16:30 — 承認すると各仕入先の締切時刻に自動発注されます',
   kOrder:'発注品目',kSup:'仕入先',kMan:'手動変更',uItem:'品目',uSup:'社',cut:'締切',
@@ -355,17 +332,15 @@ const T={
   nOrdered:n=>`${n} 品目発注`,nChanged:n=>`${n} 手動変更`,asSug:'提案どおり',changed:'変更',
   saveHint:'⏱ 今すぐ承認しない場合は、入力内容を保存して16:30に自動発注できます。',saveBtn:'保存して16:30に自動発注',editable:'16:30まで何度でも編集できます。',submit:'📦 発注申請',
   doneT:'発注申請を送信しました',doneS:(a,b)=>`${a} 品目・${b} 社ぶんを承認しました。<br>各仕入先の締切時刻（16:30 / 14:30）に自動で発注されます。<br>16:30 までは何度でも編集できます。`,home:'ホームへ戻る',
-  pickStore:'店舗を選ぶ',tSaved:'保存しました。16:30に自動発注されます（再現版）',tGuest:'来客数を変えると発注数の目安が変わります（再現版）',tYst:'昨日の発注の評価を表示します（再現版）',
-  tFill:n=>`残り ${n} 品目を「在庫 0」で入力しました。個別に直せます`,tAll:'すべて入力済みです',tNeed:'すべての仕入先の在庫を入力してください'},
+  pickStore:'店舗を選ぶ',tSaved:'保存しました。16:30に自動発注されます（再現版）',tGuest:'来客数を変えると発注数の目安が変わります（再現版）',tYst:'昨日の発注の評価を表示します（再現版）',tNeed:'すべての仕入先の在庫を入力してください'},
  EN:{steps:['① Notice','② Type','③ Stock','④ Confirm'],dt:'Tue, Sep 8, 2026 08:13',
   h1:'Time to order',hsub:'Tue, Sep 8, 2026 08:12 · Enter stock → auto-calculate → send',start:'Start ordering',yst:"Yesterday's review",
   todayStatus:"Today's status",food:'Food',cons:'Supplies',notyet:'Not ordered yet',ordered:'Ordered',sent:'Sent',notstart:'Not started',none:'None',
   q1:'What will you order today?',q1s:'Choose an order type. Timing differs by type.',
   foodDesc:'Vegetables, meat, seasoning<br>food order',consDesc:'Chopsticks, aprons<br>supplies order',auto:'Auto-order at 14:30',noItems:'No items in this type',
   timing:'📋 Difference in timing',timing1:'<b>Supplies</b>: ordered the moment you confirm. Editable only before confirming.',timing2:'<b>Food</b>: auto-ordered at 14:30. Editable any number of times until then. After 14:30 it is sent immediately.',
-  back:'← Back',supList:"Today's suppliers",items:'items',enterStock:'Enter stock counts',guests:'Expected guests today:',change:'Change',fillRest:'Fill the rest',
-  entered:'items entered',remainN:n=>`${n} to go`,supDone:'✓ Supplier complete',hint:'💡 <b>Just tap a number</b> to set stock. Tap <b>0</b> if it is used up, or the closest number if some is left.',
-  par:'Par',nextD:'Next delivery',stock:'Stock',order:'Order',noOrder:'No order',fix:'Edit',left:'left',ok:'OK',warn:'Low',crit:'Critical',
+  back:'← Back',supList:"Today's suppliers",items:'items',enterStock:'Enter stock counts',guests:'Expected guests today:',change:'Change',
+  par:'Par',nextD:'Next delivery',stock:'Stock',order:'Order',left:'left',ok:'OK',warn:'Low',crit:'Critical',
   nextSup:'Next supplier →',toConfirm:'Go to confirm →',backBtn:'Back',
   c1:'Confirm your order',c1s:'Check the quantities and approve as the person in charge.',deadline:'🚨 Earliest cut-off: 16:30 — once approved, orders are sent at each supplier cut-off',
   kOrder:'Items',kSup:'Suppliers',kMan:'Edited',uItem:'items',uSup:'suppliers',cut:'Cut-off',
@@ -373,17 +348,15 @@ const T={
   nOrdered:n=>`${n} items ordered`,nChanged:n=>`${n} edited`,asSug:'As suggested',changed:'edited',
   saveHint:'⏱ If you do not approve now, your input can be saved and auto-ordered at 16:30.',saveBtn:'Save & auto-order at 16:30',editable:'Editable any time until 16:30.',submit:'📦 Submit order',
   doneT:'Order submitted',doneS:(a,b)=>`Approved ${a} items from ${b} suppliers.<br>They will be sent at each supplier cut-off (16:30 / 14:30).<br>Editable until 16:30.`,home:'Back to home',
-  pickStore:'Choose store',tSaved:'Saved. It will be auto-ordered at 16:30 (demo)',tGuest:'Changing guests changes the suggested amounts (demo)',tYst:"Shows yesterday's review (demo)",
-  tFill:n=>`Set ${n} remaining items to stock 0. You can still edit each one`,tAll:'All items are entered',tNeed:'Please enter stock for every supplier'},
+  pickStore:'Choose store',tSaved:'Saved. It will be auto-ordered at 16:30 (demo)',tGuest:'Changing guests changes the suggested amounts (demo)',tYst:"Shows yesterday's review (demo)",tNeed:'Please enter stock for every supplier'},
  VI:{steps:['① Thông báo','② Loại','③ Tồn kho','④ Xác nhận'],dt:'Thứ Ba, 08/09/2026 08:13',
   h1:'Đã đến giờ đặt hàng',hsub:'Thứ Ba, 08/09/2026 08:12 · Nhập tồn kho → tự động tính → gửi',start:'Bắt đầu đặt hàng',yst:'Đánh giá hôm qua',
   todayStatus:'Trạng thái hôm nay',food:'Thực phẩm',cons:'Vật tư',notyet:'Chưa đặt hàng',ordered:'Đã đặt',sent:'Đã gửi',notstart:'Chưa bắt đầu',none:'Không có',
   q1:'Hôm nay bạn đặt loại nào?',q1s:'Chọn loại đặt hàng. Thời điểm gửi khác nhau theo loại.',
   foodDesc:'Rau, thịt, gia vị<br>đặt thực phẩm',consDesc:'Đũa, tạp dề<br>đặt vật tư',auto:'Tự động đặt 14:30',noItems:'Loại này không có mặt hàng',
   timing:'📋 Khác biệt về thời điểm',timing1:'<b>Vật tư</b>: gửi ngay khi bạn xác nhận. Chỉ sửa được trước khi xác nhận.',timing2:'<b>Thực phẩm</b>: tự động gửi lúc 14:30. Trước đó sửa bao nhiêu lần cũng được. Sau 14:30 sẽ gửi ngay.',
-  back:'← Quay lại',supList:'Nhà cung cấp hôm nay',items:'mặt hàng',enterStock:'Nhập số tồn kho',guests:'Khách dự kiến hôm nay:',change:'Đổi',fillRest:'Nhập phần còn lại',
-  entered:'mặt hàng đã nhập',remainN:n=>`còn ${n} mặt hàng`,supDone:'✓ Đã xong nhà cung cấp này',hint:'💡 <b>Chỉ cần chạm vào số</b> để nhập tồn kho. Hết thì chạm <b>0</b>, còn thì chạm số gần nhất.',
-  par:'Định mức',nextD:'Giao hàng tới',stock:'Tồn kho',order:'Đặt',noOrder:'Không đặt',fix:'Sửa',left:'còn',ok:'OK',warn:'Ít',crit:'Gấp',
+  back:'← Quay lại',supList:'Nhà cung cấp hôm nay',items:'mặt hàng',enterStock:'Nhập số tồn kho',guests:'Khách dự kiến hôm nay:',change:'Đổi',
+  par:'Định mức',nextD:'Giao hàng tới',stock:'Tồn kho',order:'Đặt',left:'còn',ok:'OK',warn:'Ít',crit:'Gấp',
   nextSup:'Nhà cung cấp tiếp →',toConfirm:'Đến bước xác nhận →',backBtn:'Quay lại',
   c1:'Xác nhận đơn hàng',c1s:'Kiểm tra số lượng và phê duyệt với tư cách người phụ trách.',deadline:'🚨 Hạn sớm nhất: 16:30 — sau khi duyệt, đơn sẽ gửi theo hạn của từng nhà cung cấp',
   kOrder:'Mặt hàng',kSup:'Nhà cung cấp',kMan:'Đã sửa',uItem:'mặt hàng',uSup:'nhà',cut:'Hạn',
@@ -391,17 +364,15 @@ const T={
   nOrdered:n=>`Đặt ${n} mặt hàng`,nChanged:n=>`${n} đã sửa`,asSug:'Theo đề xuất',changed:'sửa',
   saveHint:'⏱ Nếu chưa duyệt ngay, có thể lưu và tự động gửi lúc 16:30.',saveBtn:'Lưu & tự động gửi 16:30',editable:'Sửa được đến 16:30.',submit:'📦 Gửi đơn hàng',
   doneT:'Đã gửi đơn hàng',doneS:(a,b)=>`Đã duyệt ${a} mặt hàng của ${b} nhà cung cấp.<br>Đơn sẽ gửi theo hạn từng nhà (16:30 / 14:30).<br>Sửa được đến 16:30.`,home:'Về trang chính',
-  pickStore:'Chọn cửa hàng',tSaved:'Đã lưu. Sẽ tự động gửi lúc 16:30 (bản demo)',tGuest:'Đổi số khách sẽ đổi lượng đề xuất (bản demo)',tYst:'Hiển thị đánh giá hôm qua (bản demo)',
-  tFill:n=>`Đã đặt ${n} mặt hàng còn lại về tồn 0. Vẫn sửa được từng mặt`,tAll:'Đã nhập hết',tNeed:'Vui lòng nhập tồn kho cho tất cả nhà cung cấp'},
+  pickStore:'Chọn cửa hàng',tSaved:'Đã lưu. Sẽ tự động gửi lúc 16:30 (bản demo)',tGuest:'Đổi số khách sẽ đổi lượng đề xuất (bản demo)',tYst:'Hiển thị đánh giá hôm qua (bản demo)',tNeed:'Vui lòng nhập tồn kho cho tất cả nhà cung cấp'},
  MY:{steps:['① အသိပေးချက်','② အမျိုးအစား','③ လက်ကျန်','④ အတည်ပြု'],dt:'အင်္ဂါ၊ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:13',
   h1:'မှာယူရန် အချိန်ရောက်ပါပြီ',hsub:'အင်္ဂါ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:12 · လက်ကျန်ထည့် → အလိုအလျောက်တွက် → ပို့',start:'မှာယူမှု စတင်ရန်',yst:'မနေ့ အဆင့်သတ်မှတ်ချက်',
   todayStatus:'ယနေ့ အခြေအနေ',food:'စားသောက်ကုန်',cons:'အသုံးအဆောင်',notyet:'မမှာယူရသေးပါ',ordered:'မှာယူပြီး',sent:'ပို့ပြီး',notstart:'မစတင်သေး',none:'မရှိပါ',
   q1:'ယနေ့ ဘယ်အမျိုးအစား မှာမလဲ',q1s:'မှာယူမည့် အမျိုးအစား ရွေးပါ။ အမျိုးအစားအလိုက် ပို့သည့်အချိန် မတူပါ။',
   foodDesc:'အသီးအရွက်၊ အသား၊ အနှစ်<br>စားသောက်ကုန် မှာယူမှု',consDesc:'တူ၊ ရင်စည်း<br>အသုံးအဆောင် မှာယူမှု',auto:'14:30 အလိုအလျောက်',noItems:'ဒီအမျိုးအစားတွင် ပစ္စည်းမရှိပါ',
   timing:'📋 အချိန် ကွာခြားချက်',timing1:'<b>အသုံးအဆောင်</b>：အတည်ပြုသည့် အချိန်တွင် ချက်ချင်း ပို့သည်။ အတည်မပြုမီသာ ပြင်နိုင်သည်။',timing2:'<b>စားသောက်ကုန်</b>：14:30 တွင် အလိုအလျောက် ပို့သည်။ ထိုအချိန်အထိ အကြိမ်ကြိမ် ပြင်နိုင်သည်။ 14:30 နောက်ပိုင်း ချက်ချင်း ပို့မည်။',
-  back:'← ပြန်ရန်',supList:'ယနေ့ ပေးသွင်းသူများ',items:'ပစ္စည်း',enterStock:'လက်ကျန် အရေအတွက် ထည့်ပါ',guests:'ယနေ့ ခန့်မှန်း ဧည့်သည်:',change:'ပြောင်း',fillRest:'ကျန်တာ အားလုံး ထည့်ရန်',
-  entered:'ပစ္စည်း ထည့်ပြီး',remainN:n=>`ကျန် ${n} ပစ္စည်း`,supDone:'✓ ဒီပေးသွင်းသူ ပြီးပါပြီ',hint:'💡 <b>ဂဏန်းကို ထိလိုက်ရုံ</b>နှင့် လက်ကျန် ဝင်ပါမည်။ ကုန်ပြီးဆိုရင် <b>0</b>၊ ကျန်ရင် အနီးစပ်ဆုံး ဂဏန်းကို ထိပါ။',
-  par:'သတ်မှတ်ချက်',nextD:'နောက်ပို့ဆောင်မှု',stock:'လက်ကျန်',order:'မှာယူ',noOrder:'မမှာပါ',fix:'ပြင်',left:'ကျန်',ok:'OK',warn:'သတိ',crit:'အရေးတကြီး',
+  back:'← ပြန်ရန်',supList:'ယနေ့ ပေးသွင်းသူများ',items:'ပစ္စည်း',enterStock:'လက်ကျန် အရေအတွက် ထည့်ပါ',guests:'ယနေ့ ခန့်မှန်း ဧည့်သည်:',change:'ပြောင်း',
+  par:'သတ်မှတ်ချက်',nextD:'နောက်ပို့ဆောင်မှု',stock:'လက်ကျန်',order:'မှာယူ',left:'ကျန်',ok:'OK',warn:'သတိ',crit:'အရေးတကြီး',
   nextSup:'နောက်ပေးသွင်းသူ →',toConfirm:'အတည်ပြုရန် →',backBtn:'ပြန်ရန်',
   c1:'မှာယူမှု အတည်ပြုခြင်း',c1s:'အရေအတွက်ကို စစ်ပြီး တာဝန်ခံအနေနှင့် အတည်ပြုပါ။',deadline:'🚨 အစောဆုံး သတ်မှတ်ချိန်: 16:30 — အတည်ပြုပါက ပေးသွင်းသူတိုင်း၏ သတ်မှတ်ချိန်တွင် အလိုအလျောက် ပို့မည်',
   kOrder:'ပစ္စည်း',kSup:'ပေးသွင်းသူ',kMan:'ပြင်ဆင်',uItem:'ပစ္စည်း',uSup:'ဆိုင်',cut:'သတ်မှတ်ချိန်',
@@ -409,14 +380,13 @@ const T={
   nOrdered:n=>`${n} ပစ္စည်း မှာယူ`,nChanged:n=>`${n} ပြင်ဆင်`,asSug:'အဆိုပြုအတိုင်း',changed:'ပြင်',
   saveHint:'⏱ ယခု အတည်မပြုပါက ထည့်ထားသည်ကို သိမ်းပြီး 16:30 တွင် အလိုအလျောက် ပို့နိုင်သည်။',saveBtn:'သိမ်း၍ 16:30 ပို့ရန်',editable:'16:30 အထိ အကြိမ်ကြိမ် ပြင်နိုင်သည်။',submit:'📦 မှာယူမှု တင်ပြရန်',
   doneT:'မှာယူမှု တင်ပြပြီးပါပြီ',doneS:(a,b)=>`ပေးသွင်းသူ ${b} ဆိုင်မှ ပစ္စည်း ${a} မျိုးကို အတည်ပြုပြီးပါပြီ။<br>ပေးသွင်းသူတိုင်း၏ သတ်မှတ်ချိန် (16:30 / 14:30) တွင် အလိုအလျောက် ပို့မည်။<br>16:30 အထိ ပြင်နိုင်သည်။`,home:'ပင်မစာမျက်နှာ',
-  pickStore:'ဆိုင် ရွေးရန်',tSaved:'သိမ်းပြီးပါပြီ။ 16:30 တွင် အလိုအလျောက် ပို့မည် (နမူနာ)',tGuest:'ဧည့်သည်အရေအတွက် ပြောင်းလျှင် အဆိုပြုပမာဏ ပြောင်းမည် (နမူနာ)',tYst:'မနေ့ အဆင့်သတ်မှတ်ချက် ပြမည် (နမူနာ)',
-  tFill:n=>`ကျန် ${n} ပစ္စည်းကို လက်ကျန် 0 ဖြင့် ထည့်ပြီးပါပြီ။ တစ်ခုချင်း ပြင်နိုင်သည်`,tAll:'အားလုံး ထည့်ပြီးပါပြီ',tNeed:'ပေးသွင်းသူအားလုံး၏ လက်ကျန်ကို ထည့်ပါ'},
+  pickStore:'ဆိုင် ရွေးရန်',tSaved:'သိမ်းပြီးပါပြီ။ 16:30 တွင် အလိုအလျောက် ပို့မည် (နမူနာ)',tGuest:'ဧည့်သည်အရေအတွက် ပြောင်းလျှင် အဆိုပြုပမာဏ ပြောင်းမည် (နမူနာ)',tYst:'မနေ့ အဆင့်သတ်မှတ်ချက် ပြမည် (နမူနာ)',tNeed:'ပေးသွင်းသူအားလုံး၏ လက်ကျန်ကို ထည့်ပါ'},
 };
 const t=(k,...a)=>{const v=(T[S.lang]&&T[S.lang][k])??T.JA[k];return typeof v==='function'?v(...a):v};
 function setLang(c){S.lang=T[c]?c:'JA';localStorage.setItem('nagi_lang',S.lang);document.documentElement.lang=S.lang.toLowerCase();S.sheet=null;render()}
 
 /* ============ 状態 ============ */
-let S={step:'home',type:null,sup:0,stock:{},final:{},collapse:{},lang:(localStorage.getItem('nagi_lang')||'JA'),sheet:null,submitted:false};
+let S={step:'home',type:null,sup:0,stock:{},final:{},lang:(localStorage.getItem('nagi_lang')||'JA'),sheet:null,submitted:false};
 const supName=x=>S.lang==='JA'?x.name:(x.en||x.name);
 const itName=it=>S.lang==='JA'?it.n:(it.en||it.n);
 const key=(i)=>`i${i}`;
@@ -466,11 +436,8 @@ function typeSel(){
  <div class="note"><b>${t('timing')}</b><br>${t('timing1')}<br>${t('timing2')}</div>
  <button class="back" onclick="goStep('home')">${esc(t('back'))}</button></div>`;
 }
-function presetVals(par){const a=[0];const step=Math.max(1,Math.round(par/4));for(let v=step;v<par;v+=step)a.push(v);a.push(par);return [...new Set(a)].slice(0,6)}
 function itemCard(i){
  const it=ITEMS[i];const s=stockOf(i);const on=entered(i);const sug=suggest(i);const r=remain(i);
- if(on&&S.collapse[key(i)]!==false){return `<div class="item done"><div class="itop"><div class="ph">${it.em}</div><div style="min-width:0"><div class="iname">${esc(it.n)}</div><div style="font-size:11.5px;color:var(--mute);margin-top:3px">${esc(t('stock'))} ${s} ${esc(it.u)}</div></div>
-   <div class="dsum">${sug>0?`${esc(t('order'))} <b>${sug}</b>${esc(it.u)}`:`<span style="color:var(--mute)">${esc(t('noOrder'))}</span>`}<button class="re" onclick="reopen(${i})">${esc(t('fix'))}</button></div></div></div>`}
  const pct=on?Math.min(100,Math.round(s/it.par*100)):0;
  const lv=r?level(r.hours):'';
  const ticks=Array.from({length:Math.max(0,Math.min(11,it.par-1))},(_,k)=>`<i style="left:${(k+1)/it.par*100}%"></i>`).join('');
@@ -480,8 +447,7 @@ function itemCard(i){
   <button class="stp" onclick="bump(${i},-1)">−</button>
   <input class="qty ${on?'set':''}" id="q${i}" inputmode="numeric" value="${on?s:'—'}" onfocus="if(this.value==='—')this.value=''" onchange="setStock(${i},this.value)">
   <button class="stp" onclick="bump(${i},1)">＋</button><div class="unit">${esc(it.u)}</div></div>
- <div class="presets">${presetVals(it.par).map(v=>`<button class="${on&&s===v?'on':''} ${v===0?'zero':''}" onclick="setStock(${i},${v})">${v}</button>`).join('')}</div>
- <div class="rail"><input type="range" min="0" max="${it.par}" step="1" value="${on?s:0}" style="--p:${pct}%" oninput="setStock(${i},this.value,false)">
+ <div class="rail"><input type="range" min="0" max="${it.par}" step="1" value="${on?s:0}" style="--p:${pct}%" oninput="setStock(${i},this.value)">
   <div class="ticks">${ticks}</div><div class="scale"><span>0</span><span>${esc(t('par'))}: ${it.par}</span></div>
   ${r?`<div class="est">${r.portions!==null?`<b>${r.portions}</b>${esc(S.lang==='JA'?it.pl:'')} `:''}${esc(t('left'))} <b>~${r.hours}h</b><span class="tag ${lv}">${lv==='ok'?'✅':lv==='warn'?'⚠️':'🚨'} ${esc(lv==='ok'?t('ok'):lv==='warn'?t('warn'):t('crit'))}</span></div>`:''}</div>
  </div>
@@ -497,12 +463,8 @@ function inputView(){
  <div class="main"><div class="mhead"><div class="av">${sup.em}</div><div><h2>${esc(supName(sup))}</h2><div class="s">${idx.length} ${esc(t('items'))} · ${esc(t('enterStock'))}</div></div>
   <div class="r"><span class="cnt">${S.sup+1} / ${SUPPLIERS.length}</span><div class="s">${esc(t('dt'))}</div></div></div>
  <div class="guest">${esc(t('guests'))} <b>${GUESTS}</b> <button class="ghost" onclick="toast(t('tGuest'))">${esc(t('change'))}</button>
-  <button class="skipall" style="margin-left:auto" onclick="fillRest(${S.sup})">${esc(t('fillRest'))}</button></div>
- <div class="prog"><div class="bar"><i style="width:${Math.round(touchedSup(sup.id)/idx.length*100)}%"></i></div>
-  <div class="tx"><span><b>${touchedSup(sup.id)}</b> / ${idx.length} ${esc(t('entered'))}</span><span>${esc(done?t('supDone'):t('remainN',idx.length-touchedSup(sup.id)))}</span></div></div>
- ${!touchedSup(sup.id)?`<div class="hint">${t('hint')}</div>`:''}
- ${idx.map(itemCard).join('')}
- ${done?`<button class="jump" onclick="nextSup()">${esc(S.sup<SUPPLIERS.length-1?t('nextSup'):t('toConfirm'))}</button>`:''}</div>
+</div>
+ ${idx.map(itemCard).join('')}</div>
  <div class="bottom"><div class="in"><button class="btn sec" onclick="prevSup()">${esc(t('backBtn'))}</button>
  <button class="btn pri" ${done?'':'disabled'} onclick="nextSup()">${esc(S.sup<SUPPLIERS.length-1?t('nextSup'):t('toConfirm'))}</button></div></div></div>`;
 }
@@ -533,12 +495,7 @@ function doneView(){
 }
 /* ============ 操作 ============ */
 function goStep(k){if(k==='input'&&!S.type)S.type='food';if(k==='confirm'&&!allDone()){toast(t('tNeed'));return}S.step=k;window.scrollTo(0,0);render()}
-function setStock(i,v,collapse){const it=ITEMS[i];let n=parseInt(String(v).replace(/[^0-9]/g,''),10);if(isNaN(n))n=0;n=Math.max(0,Math.min(it.par,n));S.stock[key(i)]=n;delete S.final[key(i)];
- if(collapse!==false)S.collapse[key(i)]=true;
- render();
- if(collapse!==false){const idx=idxOf(SUPPLIERS[S.sup].id);const nx=idx.find(j=>!entered(j));if(nx!==undefined){const cards=document.querySelectorAll('.main .item');const el=cards[idx.indexOf(nx)];if(el)el.scrollIntoView({block:'center',behavior:'smooth'})}}}
-function reopen(i){S.collapse[key(i)]=false;render()}
-function fillRest(n){const idx=idxOf(SUPPLIERS[n].id);let c=0;idx.forEach(i=>{if(!entered(i)){S.stock[key(i)]=0;S.collapse[key(i)]=true;c++}});render();toast(c?t('tFill',c):t('tAll'))}
+function setStock(i,v){const it=ITEMS[i];let n=parseInt(String(v).replace(/[^0-9]/g,''),10);if(isNaN(n))n=0;n=Math.max(0,Math.min(it.par,n));S.stock[key(i)]=n;delete S.final[key(i)];render()}
 function bump(i,d){const cur=entered(i)?stockOf(i):0;setStock(i,cur+d)}
 function setFinal(i,v){let n=parseInt(String(v).replace(/[^0-9]/g,''),10);if(isNaN(n))n=0;S.final[key(i)]=Math.max(0,n);render()}
 function bumpFinal(i,d){setFinal(i,(finalOf(i)||0)+d)}
@@ -552,6 +509,6 @@ function storeSheet(){return `<div class="veil" onclick="if(event.target===this)
 function pickStoreId(id){localStorage.setItem('nagi_store',id);const u=new URL(location.href);u.searchParams.set('store',id);location.href=u.toString()}
 function render(){$('app').innerHTML=header()+(S.step==='home'?home():S.step==='type'?typeSel():S.step==='input'?inputView():S.step==='confirm'?confirmView():doneView())+(S.sheet==='store'?storeSheet():'');
  document.querySelectorAll('input[type=range]').forEach(r=>{const set=()=>r.style.setProperty('--p',(r.value/r.max*100)+'%');set();r.addEventListener('input',set)})}
-Object.assign(window,{goStep,setStock,bump,setFinal,bumpFinal,nextSup,prevSup,submitOrder,render,S,toast,reopen,fillRest,presetVals,setLang,pickStoreId,t});
+Object.assign(window,{goStep,setStock,bump,setFinal,bumpFinal,nextSup,prevSup,submitOrder,render,S,toast,presetVals,setLang,pickStoreId,t});
 render();
 </script>
