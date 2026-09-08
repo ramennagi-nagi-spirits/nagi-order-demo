@@ -69,6 +69,15 @@ h1{font-size:26px;font-weight:900;letter-spacing:-.02em}
 .note b{font-weight:700}
 .back{margin-top:22px;color:var(--ink2);font-size:12.5px}
 /* input layout */
+.pbar{position:sticky;top:44px;z-index:28;background:#fff;border-bottom:1px solid var(--line);padding:7px 14px 8px}
+.pbar .r{display:flex;align-items:baseline;gap:8px;font-size:11.5px;color:var(--mute);margin-bottom:5px}
+.pbar .r b{color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}
+.pbar .r .pct{margin-left:auto;font-variant-numeric:tabular-nums}
+.pbar .t{height:6px;border-radius:99px;background:#EDEFF2;overflow:hidden}
+.pbar .t i{display:block;height:100%;background:var(--nagi);border-radius:99px;transition:width .28s ease}
+.pbar.full .t i{background:#12805A}
+.pbar.full .r .pct{color:#12805A;font-weight:700}
+@media (max-width:720px){.pbar{top:auto;position:static}}
 .split{display:flex;min-height:calc(100dvh - 44px)}
 .side{width:176px;flex:none;border-right:1px solid var(--line);background:#FBFBFC;padding:14px 0}
 .side .h{font-size:10.5px;color:var(--mute);font-weight:700;padding:0 14px 10px}
@@ -336,7 +345,7 @@ const GUESTS=300;
 /* ---------- 表示言語（実物と同じ4言語） ---------- */
 const LANGS=[['JA','🇯🇵'],['EN','🇺🇸'],['VI','🇻🇳'],['MY','🇲🇲']];
 const T={
- JA:{helpOn:'解説モード オン：ボタンに触れると説明が出ます',helpOff:'解説モード オフ',reset:'入力を消して最初から',resetHint:'練習をやり直すときに押してください。入力した在庫と数量をすべて消します。',resetDone:'入力を消しました。最初から練習できます',resetAsk:'入力した在庫と数量をすべて消して、最初からやり直しますか？',practice:'練習をやり直す',steps:['① 通知','② 選択','③ 在庫入力','④ 確認'],dt:'火曜日・2026年9月8日 08:13',
+ JA:{progLbl:'在庫を入力した品目',progUnit:'品目',helpOn:'解説モード オン：ボタンに触れると説明が出ます',helpOff:'解説モード オフ',reset:'入力を消して最初から',resetHint:'練習をやり直すときに押してください。入力した在庫と数量をすべて消します。',resetDone:'入力を消しました。最初から練習できます',resetAsk:'入力した在庫と数量をすべて消して、最初からやり直しますか？',practice:'練習をやり直す',steps:['① 通知','② 選択','③ 在庫入力','④ 確認'],dt:'火曜日・2026年9月8日 08:13',
   h1:'発注の時間です',hsub:'火曜日・2026年9月8日 08:12・在庫を入力 → 発注数を自動計算 → 送信',start:'発注を開始',yst:'昨日の評価',
   todayStatus:'本日のステータス',food:'食材',cons:'消耗品',notyet:'まだ発注されていません',ordered:'発注済み',sent:'送信済み',notstart:'未開始',none:'対象なし',
   q1:'今日はどちらを発注しますか？',q1s:'発注タイプを選んでください。タイプによって発注タイミングが異なります。',
@@ -352,7 +361,7 @@ const T={
   saveHint:'⏱ 今すぐ承認しない場合は、入力内容を保存して16:30に自動発注できます。',saveBtn:'保存して16:30に自動発注',editable:'16:30まで何度でも編集できます。',submit:'📦 発注申請',
   doneT:'発注申請を送信しました',doneS:(a,b)=>`${a} 品目・${b} 社ぶんを承認しました。<br>各仕入先の締切時刻（16:30）に自動で発注されます。<br>16:30 までは何度でも編集できます。`,home:'ホームへ戻る',
   pickStore:'店舗を選ぶ',tSaved:'保存しました。16:30に自動発注されます（再現版）',tGuest:'来客数を変えると発注数の目安が変わります（再現版）',tYst:'昨日の発注の評価を表示します（再現版）',tNeed:'すべての仕入先の在庫を入力してください'},
- EN:{helpOn:'Help mode on: touch a button to see what it does',helpOff:'Help mode off',reset:'Clear entries and start over',resetHint:'Tap this to practise again. It clears every stock count and quantity you entered.',resetDone:'Entries cleared. You can practise from the start',resetAsk:'Clear all stock counts and quantities and start over?',practice:'Practise again',steps:['① Notice','② Type','③ Stock','④ Confirm'],dt:'Tue, Sep 8, 2026 08:13',
+ EN:{progLbl:'Items counted',progUnit:'items',helpOn:'Help mode on: touch a button to see what it does',helpOff:'Help mode off',reset:'Clear entries and start over',resetHint:'Tap this to practise again. It clears every stock count and quantity you entered.',resetDone:'Entries cleared. You can practise from the start',resetAsk:'Clear all stock counts and quantities and start over?',practice:'Practise again',steps:['① Notice','② Type','③ Stock','④ Confirm'],dt:'Tue, Sep 8, 2026 08:13',
   h1:'Time to order',hsub:'Tue, Sep 8, 2026 08:12 · Enter stock → auto-calculate → send',start:'Start ordering',yst:"Yesterday's review",
   todayStatus:"Today's status",food:'Food',cons:'Supplies',notyet:'Not ordered yet',ordered:'Ordered',sent:'Sent',notstart:'Not started',none:'None',
   q1:'What will you order today?',q1s:'Choose an order type. Timing differs by type.',
@@ -368,7 +377,7 @@ const T={
   saveHint:'⏱ If you do not approve now, your input can be saved and auto-ordered at 16:30.',saveBtn:'Save & auto-order at 16:30',editable:'Editable any time until 16:30.',submit:'📦 Submit order',
   doneT:'Order submitted',doneS:(a,b)=>`Approved ${a} items from ${b} suppliers.<br>They will be sent at each supplier cut-off (16:30).<br>Editable until 16:30.`,home:'Back to home',
   pickStore:'Choose store',tSaved:'Saved. It will be auto-ordered at 16:30 (demo)',tGuest:'Changing guests changes the suggested amounts (demo)',tYst:"Shows yesterday's review (demo)",tNeed:'Please enter stock for every supplier'},
- VI:{helpOn:'Bật hướng dẫn: chạm vào nút để xem giải thích',helpOff:'Tắt hướng dẫn',reset:'Xoá dữ liệu và bắt đầu lại',resetHint:'Chạm vào đây để luyện tập lại. Toàn bộ tồn kho và số lượng đã nhập sẽ bị xoá.',resetDone:'Đã xoá dữ liệu. Bạn có thể luyện lại từ đầu',resetAsk:'Xoá toàn bộ tồn kho và số lượng đã nhập rồi bắt đầu lại?',practice:'Luyện lại',steps:['① Thông báo','② Loại','③ Tồn kho','④ Xác nhận'],dt:'Thứ Ba, 08/09/2026 08:13',
+ VI:{progLbl:'Mặt hàng đã nhập',progUnit:'mặt hàng',helpOn:'Bật hướng dẫn: chạm vào nút để xem giải thích',helpOff:'Tắt hướng dẫn',reset:'Xoá dữ liệu và bắt đầu lại',resetHint:'Chạm vào đây để luyện tập lại. Toàn bộ tồn kho và số lượng đã nhập sẽ bị xoá.',resetDone:'Đã xoá dữ liệu. Bạn có thể luyện lại từ đầu',resetAsk:'Xoá toàn bộ tồn kho và số lượng đã nhập rồi bắt đầu lại?',practice:'Luyện lại',steps:['① Thông báo','② Loại','③ Tồn kho','④ Xác nhận'],dt:'Thứ Ba, 08/09/2026 08:13',
   h1:'Đã đến giờ đặt hàng',hsub:'Thứ Ba, 08/09/2026 08:12 · Nhập tồn kho → tự động tính → gửi',start:'Bắt đầu đặt hàng',yst:'Đánh giá hôm qua',
   todayStatus:'Trạng thái hôm nay',food:'Thực phẩm',cons:'Vật tư',notyet:'Chưa đặt hàng',ordered:'Đã đặt',sent:'Đã gửi',notstart:'Chưa bắt đầu',none:'Không có',
   q1:'Hôm nay bạn đặt loại nào?',q1s:'Chọn loại đặt hàng. Thời điểm gửi khác nhau theo loại.',
@@ -384,7 +393,7 @@ const T={
   saveHint:'⏱ Nếu chưa duyệt ngay, có thể lưu và tự động gửi lúc 16:30.',saveBtn:'Lưu & tự động gửi 16:30',editable:'Sửa được đến 16:30.',submit:'📦 Gửi đơn hàng',
   doneT:'Đã gửi đơn hàng',doneS:(a,b)=>`Đã duyệt ${a} mặt hàng của ${b} nhà cung cấp.<br>Đơn sẽ gửi theo hạn từng nhà (16:30).<br>Sửa được đến 16:30.`,home:'Về trang chính',
   pickStore:'Chọn cửa hàng',tSaved:'Đã lưu. Sẽ tự động gửi lúc 16:30 (bản demo)',tGuest:'Đổi số khách sẽ đổi lượng đề xuất (bản demo)',tYst:'Hiển thị đánh giá hôm qua (bản demo)',tNeed:'Vui lòng nhập tồn kho cho tất cả nhà cung cấp'},
- MY:{helpOn:'ရှင်းလင်းချက် ဖွင့်ပြီး - ခလုတ်ကို ထိပါ',helpOff:'ရှင်းလင်းချက် ပိတ်ပြီး',reset:'ထည့်ထားသည်ကို ဖျက်ပြီး အစမှ',resetHint:'ပြန်လေ့ကျင့်လိုပါက ဒါကို ထိပါ။ ထည့်ထားသော လက်ကျန်နှင့် အရေအတွက် အားလုံး ပျက်မည်။',resetDone:'ဖျက်ပြီးပါပြီ။ အစမှ ပြန်လေ့ကျင့်နိုင်ပါသည်',resetAsk:'ထည့်ထားသော လက်ကျန်နှင့် အရေအတွက် အားလုံးကို ဖျက်ပြီး အစမှ ပြန်စမလား',practice:'ပြန်လေ့ကျင့်ရန်',steps:['① အသိပေးချက်','② အမျိုးအစား','③ လက်ကျန်','④ အတည်ပြု'],dt:'အင်္ဂါ၊ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:13',
+ MY:{progLbl:'ထည့်ပြီးသော ပစ္စည်း',progUnit:'မျိုး',helpOn:'ရှင်းလင်းချက် ဖွင့်ပြီး - ခလုတ်ကို ထိပါ',helpOff:'ရှင်းလင်းချက် ပိတ်ပြီး',reset:'ထည့်ထားသည်ကို ဖျက်ပြီး အစမှ',resetHint:'ပြန်လေ့ကျင့်လိုပါက ဒါကို ထိပါ။ ထည့်ထားသော လက်ကျန်နှင့် အရေအတွက် အားလုံး ပျက်မည်။',resetDone:'ဖျက်ပြီးပါပြီ။ အစမှ ပြန်လေ့ကျင့်နိုင်ပါသည်',resetAsk:'ထည့်ထားသော လက်ကျန်နှင့် အရေအတွက် အားလုံးကို ဖျက်ပြီး အစမှ ပြန်စမလား',practice:'ပြန်လေ့ကျင့်ရန်',steps:['① အသိပေးချက်','② အမျိုးအစား','③ လက်ကျန်','④ အတည်ပြု'],dt:'အင်္ဂါ၊ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:13',
   h1:'မှာယူရန် အချိန်ရောက်ပါပြီ',hsub:'အင်္ဂါ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:12 · လက်ကျန်ထည့် → အလိုအလျောက်တွက် → ပို့',start:'မှာယူမှု စတင်ရန်',yst:'မနေ့ အဆင့်သတ်မှတ်ချက်',
   todayStatus:'ယနေ့ အခြေအနေ',food:'စားသောက်ကုန်',cons:'အသုံးအဆောင်',notyet:'မမှာယူရသေးပါ',ordered:'မှာယူပြီး',sent:'ပို့ပြီး',notstart:'မစတင်သေး',none:'မရှိပါ',
   q1:'ယနေ့ ဘယ်အမျိုးအစား မှာမလဲ',q1s:'မှာယူမည့် အမျိုးအစား ရွေးပါ။ အမျိုးအစားအလိုက် ပို့သည့်အချိန် မတူပါ။',
@@ -585,6 +594,14 @@ document.addEventListener('pointerout',e=>{if(HELP_ON&&!(e.relatedTarget&&e.rela
 window.addEventListener('scroll',hideHelp,true);
 
 /* ============ 部品 ============ */
+function progressBar(){
+ if(S.step!=='input'&&S.step!=='confirm')return '';
+ const done=ITEMS.filter((x,i)=>entered(i)).length, total=ITEMS.length;
+ const pct=Math.round(done/total*100);
+ return `<div class="pbar${done===total?' full':''}"><div class="r">${esc(t('progLbl'))} <b>${done} / ${total}</b>
+  <span>${esc(t('progUnit'))}</span><span class="pct">${pct}%</span></div>
+  <div class="t"><i style="width:${pct}%"></i></div></div>`;
+}
 function header(){
  const steps=[['home',t('steps')[0]],['type',t('steps')[1]],['input',t('steps')[2]],['confirm',t('steps')[3]]];
  const order=['home','type','input','confirm'];const cur=order.indexOf(S.step==='done'?'confirm':S.step);
@@ -684,7 +701,7 @@ function storeSheet(){return `<div class="veil" onclick="if(event.target===this)
  <div class="stlist">${STORES.map(x=>`<button class="strow ${x.id===STORE_OBJ.id?'on':''}" onclick="pickStoreId('${x.id}')">${esc(S.lang==='JA'?x.ja:x.en)}${x.id===STORE_OBJ.id?' ✓':''}</button>`).join('')}</div>
  </div></div></div>`}
 function pickStoreId(id){localStorage.setItem('nagi_store',id);const u=new URL(location.href);u.searchParams.set('store',id);location.href=u.toString()}
-function render(){$('app').innerHTML=header()+(S.step==='home'?home():S.step==='type'?typeSel():S.step==='input'?inputView():S.step==='confirm'?confirmView():doneView())+(S.sheet==='store'?storeSheet():'');
+function render(){$('app').innerHTML=header()+progressBar()+(S.step==='home'?home():S.step==='type'?typeSel():S.step==='input'?inputView():S.step==='confirm'?confirmView():doneView())+(S.sheet==='store'?storeSheet():'');
  document.querySelectorAll('input[type=range]').forEach(r=>{const set=()=>r.style.setProperty('--p',(r.value/r.max*100)+'%');set();r.addEventListener('input',set)})}
 Object.assign(window,{toggleHelp,showHelp,hideHelp,resetAll,goStep,setStock,bump,setFinal,bumpFinal,nextSup,prevSup,submitOrder,render,S,toast,setLang,pickStoreId,t});
 render();
