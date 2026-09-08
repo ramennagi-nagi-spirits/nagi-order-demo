@@ -3,6 +3,11 @@
 外部の開発チームと作った発注システム（稼働中）の**画面と操作を再現したデモ**です。
 実際の発注は行いません。スマホで繰り返し操作して、流れを体で覚えるために使います。
 
+## リンク
+
+- アプリ本体: https://ramennagi-nagi-spirits.github.io/nagi-order-demo/
+- 店舗別 QR（印刷用）: https://ramennagi-nagi-spirits.github.io/nagi-order-demo/qr.html
+
 ## 使い方
 
 QR かリンクを開くと、その店舗の状態で操作画面が出ます（ログイン不要）。
