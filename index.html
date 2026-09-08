@@ -509,6 +509,6 @@ function storeSheet(){return `<div class="veil" onclick="if(event.target===this)
 function pickStoreId(id){localStorage.setItem('nagi_store',id);const u=new URL(location.href);u.searchParams.set('store',id);location.href=u.toString()}
 function render(){$('app').innerHTML=header()+(S.step==='home'?home():S.step==='type'?typeSel():S.step==='input'?inputView():S.step==='confirm'?confirmView():doneView())+(S.sheet==='store'?storeSheet():'');
  document.querySelectorAll('input[type=range]').forEach(r=>{const set=()=>r.style.setProperty('--p',(r.value/r.max*100)+'%');set();r.addEventListener('input',set)})}
-Object.assign(window,{goStep,setStock,bump,setFinal,bumpFinal,nextSup,prevSup,submitOrder,render,S,toast,presetVals,setLang,pickStoreId,t});
+Object.assign(window,{goStep,setStock,bump,setFinal,bumpFinal,nextSup,prevSup,submitOrder,render,S,toast,setLang,pickStoreId,t});
 render();
 </script>
