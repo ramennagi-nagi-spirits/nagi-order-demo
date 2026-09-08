@@ -1,0 +1,354 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<title>NAGI 発注システム 操作マニュアル（練習用）</title>
+<style>
+@page{size:A4;margin:13mm 12mm 12mm}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic",sans-serif;color:#14171c;font-size:9.9pt;line-height:1.68}
+.page{page-break-after:always;position:relative;min-height:262mm}
+.page:last-child{page-break-after:auto}
+h1{font-size:23pt;line-height:1.3;margin:0 0 6px}
+h2{font-size:15pt;margin:0 0 3px;letter-spacing:.01em}
+h3{font-size:11pt;margin:11px 0 3px}
+.pnum{position:absolute;bottom:0;right:0;font-size:8pt;color:#98a2ae}
+.pnum b{color:#14171c}
+.hd{border-bottom:2.5px solid #8E1B3A;padding-bottom:6px;margin-bottom:11px;display:flex;align-items:flex-end;gap:10px}
+.hd .step{background:#8E1B3A;color:#fff;font-size:9pt;font-weight:700;border-radius:20px;padding:2px 11px;white-space:nowrap}
+.hd .sub{font-size:9pt;color:#6b7480;margin-left:auto;text-align:right}
+.lead{font-size:10.2pt;margin:0 0 10px}
+.cols{display:flex;gap:12px;align-items:flex-start}
+.shot{border:1px solid #d7dde4;border-radius:11px;overflow:hidden;background:#000;flex:none}
+.shot img{display:block;width:100%}
+.w1 .shot{width:78mm}
+.w2 .shot{width:52mm}
+.p-confirm .shot{width:46mm}
+.body{flex:1}
+ol,ul{margin:6px 0 0;padding-left:1.25em}
+li{margin:0 0 4px}
+.cap{font-size:8.5pt;color:#6b7480;text-align:center;margin-top:3px}
+.call{background:#FFFBEA;border:2.2px solid #FF4D4F;border-radius:11px;padding:8px 11px;margin:8px 0;font-size:9.5pt;box-shadow:0 2px 0 #FF4D4F}
+.call b{color:#B3252A}
+.note{background:#f4f6f8;border-left:4px solid #8E1B3A;border-radius:0 8px 8px 0;padding:8px 11px;margin:8px 0;font-size:9.3pt}
+.k{background:#eef1f4;border:1px solid #d7dde4;border-radius:5px;padding:0 5px;font-weight:700;font-size:9.4pt;white-space:nowrap}
+table{border-collapse:collapse;width:100%;font-size:9.3pt;margin-top:5px}
+th,td{border:1px solid #d7dde4;padding:5px 7px;text-align:left;vertical-align:top}
+th{background:#f4f6f8;font-weight:700;white-space:nowrap}
+.flow{display:flex;gap:6px;margin:10px 0 4px}
+.flow div{flex:1;border:1.6px solid #8E1B3A;border-radius:9px;padding:8px 6px;text-align:center;font-size:9.4pt;font-weight:700;position:relative}
+.flow div span{display:block;font-size:8.4pt;font-weight:400;color:#6b7480;margin-top:2px}
+.flow div:not(:last-child):after{content:"→";position:absolute;right:-6px;top:50%;transform:translateY(-50%);color:#8E1B3A;font-weight:700;font-size:10pt;background:#fff;line-height:1}
+.cover{text-align:center;padding-top:22mm}
+.cover .mk{width:52px;height:52px;border-radius:13px;background:#8E1B3A;color:#fff;font-size:26px;font-weight:700;line-height:52px;margin:0 auto 14px}
+.cover h1{font-size:29pt}
+.cover .t2{font-size:12.5pt;color:#4b545e;margin-bottom:22px}
+.cover .qrbox{display:inline-block;border:1px solid #d7dde4;border-radius:14px;padding:14px 16px 10px;margin:6px 0 4px}
+.cover .qrbox img{width:44mm;display:block}
+.cover .url{font-size:9.4pt;color:#8E1B3A;word-break:break-all;margin-top:7px;max-width:56mm}
+.cover .meta{font-size:9pt;color:#6b7480;margin-top:20px}
+.two{display:flex;gap:11px}
+.two>div{flex:1}
+.box{border:1px solid #d7dde4;border-radius:10px;padding:9px 12px}
+.box h3{margin-top:0}
+.warn{background:#FFF4F4;border:1.6px solid #FFB4B4;border-radius:10px;padding:9px 12px;font-size:9.6pt;margin:9px 0}
+.big{font-size:12pt;font-weight:700;color:#8E1B3A}
+</style></head><body>
+
+<!-- ============ 表紙 ============ -->
+<div class="page cover">
+ <div class="mk">凪</div>
+ <h1>発注システム<br>操作マニュアル</h1>
+ <div class="t2">スマホで発注の練習をするための再現版<br>― 在庫を数えて、発注申請するまで ―</div>
+ <div class="qrbox"><img src="shots/qr.png" alt="QRコード"><div class="url">https://ramennagi-nagi-spirits.github.io/nagi-order-demo/</div></div>
+ <div style="font-size:9.6pt;color:#4b545e;margin-top:8px">スマホのカメラでこのQRを読むだけで開きます。<br>ログインもアプリのインストールもいりません。</div>
+ <div class="call" style="text-align:left;max-width:150mm;margin:20px auto 0">
+  <b>このマニュアルの読み方</b><br>
+  画面写真に出ている黄色の吹き出しは、アプリの中で<b>実際にボタンを押すと出てくる説明</b>そのものです。<br>
+  つまり、この紙が手元になくても、押せば同じ説明が画面に出ます。迷ったら押してください。
+ </div>
+ <div class="meta">2026年9月8日版 ／ 日本語・English・Tiếng Việt・မြန်မာ の4言語に切替できます<br>
+ これは<b>練習用の再現版</b>です。ここで操作しても実際の発注は行われません。</div>
+ <div class="pnum">表紙</div>
+</div>
+
+<!-- ============ 全体の流れ ============ -->
+<div class="page">
+ <div class="hd"><div class="step">はじめに</div><h2>全体の流れと、迷ったときの「？」</h2><div class="sub">所要 5〜10分</div></div>
+ <p class="lead">やることは4つだけです。① 開く → ② 種類を選ぶ → ③ 在庫を数えて入れる → ④ 確認して発注申請。<br>
+ <b>いちばん時間がかかるのは③の在庫を数えるところ</b>です。発注する数は自動で計算されるので、数を計算する必要はありません。</p>
+ <div class="flow">
+  <div>① 開く<span>QRを読む</span></div>
+  <div>② 種類<span>食材を選ぶ</span></div>
+  <div>③ 在庫入力<span>数えて入れる</span></div>
+  <div>④ 確認<span>発注申請</span></div>
+ </div>
+ <div class="cols w2" style="margin-top:12px;justify-content:center">
+  <div><div class="shot"><img src="shots/02-home-help.png"></div><div class="cap">右上の「？」を押すと点灯</div></div>
+  <div><div class="shot"><img src="shots/03-home-steps.png"></div><div class="cap">上の手順タブ</div></div>
+ </div>
+ <div class="two" style="margin-top:11px">
+  <div class="box">
+   <h3 style="margin-top:0">迷ったら「？」を押す</h3>
+   <p>画面の右上に <span class="k">？</span> があります。押して黄色く点灯させると、<b>ボタンに触れるだけで説明が出る状態</b>になります。もう一度押すと消えます。設定はその端末に残るので、次に開いたときも同じままです。</p>
+   <p style="margin-bottom:0"><b>言語を変える:</b> 右上の <span class="k">🇯🇵 JA</span> <span class="k">EN</span> <span class="k">VI</span> <span class="k">MY</span> で切り替わります。説明の文章も選んだ言語に変わります。</p>
+  </div>
+  <div class="box">
+   <h3 style="margin-top:0">いま自分がどこにいるか</h3>
+   <p>画面の上に <b>① 通知 ／ ② 選択 ／ ③ 在庫入力 ／ ④ 確認</b> と並んでいます。赤いところが今の場所で、チェック（✓）が付いたところへは押して戻れます。</p>
+   <p style="margin-bottom:0">戻っても<b>入れた在庫の数は消えません</b>。安心して行き来してください。</p>
+  </div>
+ </div>
+ <div class="call" style="margin-top:11px">「？」がオフのときでも、<b>ボタンを押した瞬間に約3秒だけ</b>説明が出ます。押しても操作はそのまま進むので、確かめながら進めて大丈夫です。</div>
+ <div class="pnum">- <b>1</b> -</div>
+</div>
+
+<!-- ============ ① ホーム ============ -->
+<div class="page">
+ <div class="hd"><div class="step">ステップ ①</div><h2>開いて「発注を開始」を押す</h2></div>
+ <p class="lead">QRを読むと、この画面がそのまま出ます。ログイン画面は出ません。</p>
+ <div class="cols w1">
+  <div><div class="shot"><img src="shots/01-home-start.png"></div><div class="cap">最初の画面（ホーム）</div></div>
+  <div class="body">
+   <h3 style="margin-top:0">押すのは大きな赤いボタン1つ</h3>
+   <p><span class="k">＋ 発注を開始</span> を押します。これで種類を選ぶ画面へ進みます。</p>
+   <h3>この画面で見ておくところ</h3>
+   <ul>
+    <li><b>店舗名</b>（左上）… いまどの店として操作しているか。押すと店舗を選べます。</li>
+    <li><b>本日のステータス</b>… 「食材」「消耗品」が今日もう発注されたかどうか。<br>まだのときは「まだ発注されていません／未開始」と出ます。</li>
+    <li><b>昨日の評価</b>（右上）… 昨日出した発注の結果を振り返るところです。</li>
+   </ul>
+   <div class="call">この画面に入力するものはありません。<b>迷ったら赤いボタンを押す</b>、それだけです。</div>
+   <div class="note">練習をやり直したいときは、この画面の下に出る <b>🗑 入力を消して最初から</b> を押せばまっさらに戻ります（くわしくは最後のページ）。</div>
+  </div>
+ </div>
+ <div class="pnum">- <b>2</b> -</div>
+</div>
+
+<!-- ============ ② 種類 ============ -->
+<div class="page">
+ <div class="hd"><div class="step">ステップ ②</div><h2>「食材」を選ぶ</h2></div>
+ <p class="lead">発注する種類を選びます。押すのは <b>食材</b> のカードです。</p>
+ <div class="cols w1">
+  <div><div class="shot"><img src="shots/04-type-food.png"></div><div class="cap">種類を選ぶ画面</div></div>
+  <div class="body">
+   <h3 style="margin-top:0">食材</h3>
+   <p>野菜・肉・調味料などの発注です。カードを押すと在庫入力へ進みます。</p>
+   <div class="call"><b>14:30 に自動で発注されます。</b>それまでは何度でも直せます。だから、途中で分からなくなっても慌てる必要はありません。</div>
+   <h3>消耗品</h3>
+   <p>箸やエプロンなどの発注です。<b>この店では対象の品目がないため、灰色で押せません。</b>故障ではありません。</p>
+   <div class="note">下の <b>戻る</b> を押せばホームに帰れます。</div>
+  </div>
+ </div>
+ <div class="pnum">- <b>3</b> -</div>
+</div>
+
+<!-- ============ ③-1 仕入先 ============ -->
+<div class="page">
+ <div class="hd"><div class="step">ステップ ③-1</div><h2>仕入先ごとに進む</h2></div>
+ <p class="lead">在庫入力は<b>仕入先ごと</b>に分かれています。上に並んでいるタブを、左から順に片付けていきます。</p>
+ <div class="cols w2">
+  <div><div class="shot"><img src="shots/05-sup-tab.png"></div><div class="cap">上の仕入先タブ</div></div>
+  <div class="body">
+   <h3 style="margin-top:0">タブの数字とチェックの意味</h3>
+   <table>
+    <tr><th>表示</th><th>意味</th></tr>
+    <tr><td>数字（例 <b>8</b>）</td><td><b>まだ在庫を入れていない品目の数</b>。0になれば終わり。</td></tr>
+    <tr><td>✓（チェック）</td><td>その仕入先は全部入力し終わった印。</td></tr>
+    <tr><td>灰色の丸</td><td>まだ手を付けていない。</td></tr>
+   </table>
+   <p style="margin-top:8px">タブを押せば好きな仕入先に飛べます。並び順どおりでなくても構いません。</p>
+   <div class="note">仕入先は <b>かにわ ／ Saude ／ 清水屋 ／ 榎本 ／ 江口海苔</b> の5社、全部で31品目です。右上に「1 / 5」のように今どこかが出ます。</div>
+  </div>
+ </div>
+ <div class="cols w2" style="margin-top:12px">
+  <div><div class="shot"><img src="shots/06-guests.png"></div><div class="cap">本日予想来客数</div></div>
+  <div class="body">
+   <h3 style="margin-top:0">本日予想来客数</h3>
+   <p>今日どれくらいお客様が来る見込みかの数字です。<b>この数が多いほど、必要な在庫の目安も増えます。</b></p>
+   <div class="call">「何食分もつか」「あと何時間もつか」の計算は、この来客数をもとにしています。</div>
+  </div>
+ </div>
+ <div class="pnum">- <b>4</b> -</div>
+</div>
+
+<!-- ============ ③-2 在庫を入れる ============ -->
+<div class="page">
+ <div class="hd"><div class="step">ステップ ③-2</div><h2>在庫を数えて入れる（ここが本番）</h2></div>
+ <p class="lead">品目ごとのカードに、<b>いま実際に残っている数</b>を入れます。入れ方は3通りあり、どれを使っても同じです。</p>
+ <div class="cols w2">
+  <div><div class="shot"><img src="shots/07-stepper.png"></div><div class="cap">＋ と − で入れる</div></div>
+  <div><div class="shot"><img src="shots/08-qty.png"></div><div class="cap">数字を直接入れる</div></div>
+ </div>
+ <table style="margin-top:11px">
+  <tr><th style="width:26mm">入れ方</th><th>使いどころ</th></tr>
+  <tr><td><b>＋ − を押す</b></td><td>1つずつ増減。数が少ないときはこれがいちばん確実。</td></tr>
+  <tr><td><b>数字を押す</b></td><td>押すとキーボードが出て、数えた数をそのまま打てます。数が大きいときはこちら。</td></tr>
+  <tr><td><b>スライダーを動かす</b></td><td>つまみを左右に動かして入れます。0 から定数までの範囲です。</td></tr>
+ </table>
+ <div class="call" style="margin-top:11px"><b>入れる数は「今ある数」だけ</b>です。<b>発注する数を自分で計算して入れないでください。</b>発注数はアプリが計算します。</div>
+ <h3>数えるときの順番（おすすめ）</h3>
+ <ol>
+  <li>カードの<b>品名と単位</b>（袋・本・缶・個 など）を声に出して確認する。</li>
+  <li>その単位のまま数える。<span class="k">1kg袋なら「袋の数」</span> <span class="k">一升瓶なら「本の数」</span></li>
+  <li>数えたらすぐ入れる。まとめて後で入れると忘れます。</li>
+  <li>入れた数字は<b>緑の枠</b>になります。枠が「—」のままの品目が残り作業です。</li>
+ </ol>
+ <div class="warn"><b>迷いやすいところ:</b> 「定数」はその品目の満タンの数（目標在庫）です。定数を在庫の欄に入れてしまうと、発注数が 0 になります。入れるのは<b>今ある数</b>です。</div>
+ <div class="pnum">- <b>5</b> -</div>
+</div>
+
+<!-- ============ ③-3 目安と発注数 ============ -->
+<div class="page">
+ <div class="hd"><div class="step">ステップ ③-3</div><h2>出てくる数字の意味</h2></div>
+ <p class="lead">在庫を入れると、カードの下に2つの表示が出ます。ここが読めれば、この画面はほぼ分かったと言えます。</p>
+ <div class="cols w2">
+  <div><div class="shot"><img src="shots/09-est.png"></div><div class="cap">残りの目安</div></div>
+  <div class="body">
+   <h3 style="margin-top:0">① 残りの目安</h3>
+   <p><b>「○○食分 残り ~○h」</b>… その在庫で何食分あるか、あと何時間もつかの目安です。</p>
+   <table>
+    <tr><td style="white-space:nowrap"><b>✅ OK</b></td><td>足りている</td></tr>
+    <tr><td style="white-space:nowrap"><b>⚠️ 注意</b></td><td>そろそろ心配</td></tr>
+    <tr><td style="white-space:nowrap"><b>🚨 逼迫</b></td><td><b>足りなくなりそう</b>という印</td></tr>
+   </table>
+   <div class="note">赤（逼迫）が出たら、数え間違いがないかもう一度だけ確認してください。</div>
+  </div>
+ </div>
+ <div class="cols w2" style="margin-top:13px">
+  <div><div class="shot"><img src="shots/10-order-row.png"></div><div class="cap">発注の行</div></div>
+  <div class="body">
+   <h3 style="margin-top:0">② 発注の行</h3>
+   <p class="big">発注数 ＝ 定数 −　いま数えた在庫</p>
+   <p>カードの一番下、薄い赤の行に出る数が<b>実際に発注される数</b>です。自動で計算されるので、<b>自分で計算しなくて大丈夫</b>です。</p>
+   <div class="call">在庫を入れ直せば、発注の数もその場で変わります。<b>まだ在庫を入れていない品目は「在庫 —」</b>と出て、発注数は出ません。</div>
+  </div>
+ </div>
+ <div class="pnum">- <b>6</b> -</div>
+</div>
+
+<!-- ============ ③-4 次へ ============ -->
+<div class="page">
+ <div class="hd"><div class="step">ステップ ③-4</div><h2>次の仕入先へ進む</h2></div>
+ <p class="lead">その仕入先の品目を全部入れると、下のボタンが押せるようになります。</p>
+ <div class="cols w1">
+  <div><div class="shot"><img src="shots/11-next-sup.png"></div><div class="cap">下のボタン</div></div>
+  <div class="body">
+   <h3 style="margin-top:0">次の仕入先へ →</h3>
+   <p>この仕入先の入力を終えて次へ進みます。</p>
+   <div class="call"><b>押せないときは、まだ在庫を入れていない品目が残っています。</b>上のタブに出ている数字が「残り何品目か」です。0 になれば押せます。</div>
+   <h3>戻る</h3>
+   <p>ひとつ前に戻ります。<b>入れた在庫は消えません。</b></p>
+   <h3>最後の仕入先まで来たら</h3>
+   <p>ボタンの文字が <b>「確認へ進む →」</b> に変わります。5社すべて ✓ になっていれば押せます。</p>
+   <div class="note">全部埋まっていない状態で上の「④ 確認」タブを押すと、まだ足りないと表示されて進めません。タブの数字を見て、残っている仕入先に戻ってください。</div>
+  </div>
+ </div>
+ <div class="pnum">- <b>7</b> -</div>
+</div>
+
+<!-- ============ ④ 確認 ============ -->
+<div class="page">
+ <div class="hd"><div class="step">ステップ ④</div><h2>確認して発注申請する</h2></div>
+ <p class="lead">最後の画面です。上に3つの数字、その下に仕入先ごとの一覧が並びます。</p>
+ <div class="note" style="margin-top:0"><b>上の3つの数字:</b> 「発注品目」＝発注する品目の数 ／ 「仕入先」＝発注が出る仕入先の数 ／ 「手動変更」＝アプリの提案から<b>自分で数を変えた</b>品目の数。</div>
+ <div class="cols w2 p-confirm" style="margin-top:10px">
+  <div><div class="shot"><img src="shots/12-confirm-fin.png"></div><div class="cap">最終数量を直す</div></div>
+  <div class="body">
+   <h3 style="margin-top:0">最終数量</h3>
+   <p>各品目に <b>在庫 ／ AI提案 ／ 最終数量 ／ 単位</b> が並びます。<br>発注する数を変えたいときは <b>最終数量</b> の <span class="k">−</span> <span class="k">＋</span>、または数字を押して直します。</p>
+   <div class="call">直した行は<b>黄色</b>になり、上の「手動変更」の数が増えます。どこを触ったか後から分かるようになっています。</div>
+   <p style="margin-bottom:0">そのままで良ければ、何も触らなくて大丈夫です。</p>
+  </div>
+ </div>
+ <div class="cols w2 p-confirm" style="margin-top:10px">
+  <div><div class="shot"><img src="shots/13-save.png"></div><div class="cap">保存して自動発注</div></div>
+  <div class="body">
+   <h3 style="margin-top:0">保存して 16:30 に自動発注</h3>
+   <p>いま承認しない場合はこちら。入力内容が保存され、<b>16:30 になると自動で発注されます。</b></p>
+   <div class="note" style="margin-bottom:0">画面にも「16:30まで何度でも編集できます」と出ています。締切までは直せます。</div>
+  </div>
+ </div>
+ <div class="pnum">- <b>8</b> -</div>
+</div>
+
+<!-- ============ 発注申請 ============ -->
+<div class="page">
+ <div class="hd"><div class="step">ステップ ④</div><h2>発注申請 ― これで完了</h2></div>
+ <div class="cols w1">
+  <div><div class="shot"><img src="shots/14-submit.png"></div><div class="cap">発注申請ボタン</div></div>
+  <div class="body">
+   <h3 style="margin-top:0">📦 発注申請</h3>
+   <p>この内容で発注を申請します。押すと<b>各仕入先の締切時刻に、その仕入先へ送られます。</b></p>
+   <table>
+    <tr><th>かにわ</th><td>16:30</td></tr>
+    <tr><th>Saude</th><td>16:30</td></tr>
+    <tr><th>清水屋</th><td>16:30</td></tr>
+    <tr><th>榎本</th><td>16:30</td></tr>
+    <tr><th>江口海苔</th><td>14:30</td></tr>
+   </table>
+   <div class="call" style="margin-top:10px">押すと完了画面（大きな ✓）に変わります。ここまで来れば、その日の発注は終わりです。</div>
+   <div class="warn"><b>これは練習用の再現版です。</b>「発注申請」を押しても、実際に仕入先へ発注は行われません。安心して何度でも押してください。</div>
+   <h3>← 戻る</h3>
+   <p>在庫入力に戻ります。入れた数は消えません。</p>
+  </div>
+ </div>
+ <div class="pnum">- <b>9</b> -</div>
+</div>
+
+<!-- ============ 繰り返し練習 ============ -->
+<div class="page">
+ <div class="hd"><div class="step">練習のしかた</div><h2>もう一度、最初から</h2></div>
+ <p class="lead">この再現版は<b>何度でも練習できます</b>。発注が終わったら、入力を消して最初からやり直してください。</p>
+ <div class="cols w1">
+  <div><div class="shot"><img src="shots/15-done-reset.png"></div><div class="cap">完了画面と「消して最初から」</div></div>
+  <div class="body">
+   <h3 style="margin-top:0">🗑 入力を消して最初から</h3>
+   <p>完了画面と、ホーム画面（入力があるとき）に出ます。押すと確認が出て、<b>入れた在庫と数量をすべて消して</b>まっさらな状態に戻ります。</p>
+   <div class="call">練習用のボタンです。次の人に渡すときも、これを押してから渡すときれいな状態で始められます。</div>
+   <h3>ホームに戻る</h3>
+   <p>最初の画面に戻るだけです。<b>入れた在庫は残ります。</b>続きから確認したいときはこちら。</p>
+   <div class="note">ページを再読み込みしても最初から始まります。</div>
+   <h3 style="margin-top:16px">おすすめの練習のしかた</h3>
+   <ol>
+    <li>1回目は<b>このマニュアルを見ながら</b>、最後まで通す。</li>
+    <li>2回目は<b>「？」をオンにして</b>、画面の吹き出しだけで通す。</li>
+    <li>3回目は<b>何も見ずに</b>通す。ここまでできれば十分です。</li>
+   </ol>
+  </div>
+ </div>
+ <div class="pnum">- <b>10</b> -</div>
+</div>
+
+<!-- ============ 困ったとき ============ -->
+<div class="page">
+ <div class="hd"><div class="step">困ったとき</div><h2>よくあるつまずきと、その場での直し方</h2></div>
+ <table>
+  <tr><th style="width:52mm">こうなった</th><th>こうする</th></tr>
+  <tr><td>「次の仕入先へ」が押せない</td><td>その仕入先に<b>在庫を入れていない品目が残っています</b>。上のタブの数字が残り品目数です。在庫の欄が「—」のカードを探して入れてください。</td></tr>
+  <tr><td>「④ 確認」に進めない</td><td>5社すべてに ✓ が付いていない状態です。数字が残っているタブに戻ってください。</td></tr>
+  <tr><td>数を間違えて入れた</td><td>その場で <span class="k">＋</span> <span class="k">−</span> か数字を押して直せます。<b>締切までは何度でも直せます。</b></td></tr>
+  <tr><td>発注の数が 0 になる</td><td>在庫の欄に<b>定数（満タンの数）を入れていませんか</b>。入れるのは今ある数です。</td></tr>
+  <tr><td>発注の数が出てこない</td><td>まだ在庫を入れていない品目です。「在庫 —」と出ていたら、数を入れてください。</td></tr>
+  <tr><td>消耗品が押せない</td><td>この店には対象の品目がないためで、正常です。食材だけ進めてください。</td></tr>
+  <tr><td>ボタンの意味が分からない</td><td><b>そのボタンを押してください。</b>押した瞬間に黄色の吹き出しで説明が出ます。右上の <span class="k">？</span> をオンにすれば、触れるだけで出ます。</td></tr>
+  <tr><td>日本語が読みにくい人がいる</td><td>右上の <span class="k">EN</span> <span class="k">VI</span> <span class="k">MY</span> を押すと、画面と説明の両方がその言語に変わります。</td></tr>
+  <tr><td>途中で分からなくなった</td><td>いちど <b>🗑 入力を消して最初から</b> を押して、このマニュアルの1ページ目からやり直すのが確実です。<b>練習版なので何度でも大丈夫です。</b></td></tr>
+  <tr><td>画面が真っ白／開かない</td><td>ページを再読み込みしてください。それでも開かないときは、QRのリンクをブラウザ（Safari / Chrome）で開き直してください。</td></tr>
+ </table>
+ <div class="two" style="margin-top:14px">
+  <div class="box">
+   <h3>覚えておくのはこの3つだけ</h3>
+   <ol style="margin-bottom:0">
+    <li>入れるのは<b>今ある数</b>（発注数は自動）</li>
+    <li>タブの<b>数字が 0</b> になれば次へ進める</li>
+    <li>迷ったら<b>押す</b>（吹き出しが出る）</li>
+   </ol>
+  </div>
+  <div class="box">
+   <h3>この再現版の位置づけ</h3>
+   <p style="margin-bottom:0">操作を覚えるための練習用です。ここでの操作は<b>実際の発注には一切つながりません</b>。本番の発注システムは別にあり、画面の作りは同じです。</p>
+  </div>
+ </div>
+ <div class="note" style="margin-top:12px"><b>アプリを開くには:</b> https://ramennagi-nagi-spirits.github.io/nagi-order-demo/ ／ QRの印刷用ページは同じアドレスの末尾に <b>qr.html</b> を付けたページです。</div>
+ <div class="pnum">- <b>11</b> -</div>
+</div>
+
+</body></html>
