@@ -253,6 +253,15 @@ td.nm .th{width:28px;height:28px;border-radius:5px;background:#EDEFF3;display:gr
 .resetbtn{border:1px solid var(--line2);background:#fff;border-radius:10px;height:46px;padding:0 20px;font-size:14px;font-weight:700;color:var(--nagi);width:100%;max-width:320px}
 .resetbtn:active{background:#FDF2F5}
 .resethint{font-size:11.5px;color:var(--mute);line-height:1.8;margin-top:10px}
+
+.hcall{position:fixed;z-index:3000;background:#FFFBEA;border:2.5px solid #FF4D4F;border-radius:14px;padding:11px 14px;font-size:12.5px;line-height:1.65;color:#1B1F26;
+ box-shadow:0 12px 30px -14px rgba(0,0,0,.35),0 2px 0 #FF4D4F;transform:rotate(-.4deg);pointer-events:none;animation:hpop .16s ease-out;font-family:inherit;font-weight:500}
+.hcall .harrow{position:absolute;top:-9px;width:14px;height:14px;background:#FFFBEA;border-left:2.5px solid #FF4D4F;border-top:2.5px solid #FF4D4F;transform:translateX(-7px) rotate(45deg)}
+.hcall.up .harrow{top:auto;bottom:-9px;border-left:0;border-top:0;border-right:2.5px solid #FF4D4F;border-bottom:2.5px solid #FF4D4F}
+@keyframes hpop{from{opacity:0;transform:rotate(-.4deg) translateY(-4px) scale(.98)}to{opacity:1;transform:rotate(-.4deg) translateY(0) scale(1)}}
+.helpt{border:1px solid rgba(255,255,255,.28);background:transparent;border-radius:7px;height:26px;min-width:26px;padding:0 8px;font-size:11.5px;font-weight:700;color:#9AA3B0;flex:none}
+.helpt[aria-pressed=true]{background:#FFD400;border-color:#FFD400;color:#141519}
+@media (prefers-reduced-motion:reduce){.hcall{animation:none}}
 </style>
 
 <div class="app" id="app"></div>
@@ -327,7 +336,7 @@ const GUESTS=300;
 /* ---------- 表示言語（実物と同じ4言語） ---------- */
 const LANGS=[['JA','🇯🇵'],['EN','🇺🇸'],['VI','🇻🇳'],['MY','🇲🇲']];
 const T={
- JA:{reset:'入力を消して最初から',resetHint:'練習をやり直すときに押してください。入力した在庫と数量をすべて消します。',resetDone:'入力を消しました。最初から練習できます',resetAsk:'入力した在庫と数量をすべて消して、最初からやり直しますか？',practice:'練習をやり直す',steps:['① 通知','② 選択','③ 在庫入力','④ 確認'],dt:'火曜日・2026年9月8日 08:13',
+ JA:{helpOn:'解説モード オン：ボタンに触れると説明が出ます',helpOff:'解説モード オフ',reset:'入力を消して最初から',resetHint:'練習をやり直すときに押してください。入力した在庫と数量をすべて消します。',resetDone:'入力を消しました。最初から練習できます',resetAsk:'入力した在庫と数量をすべて消して、最初からやり直しますか？',practice:'練習をやり直す',steps:['① 通知','② 選択','③ 在庫入力','④ 確認'],dt:'火曜日・2026年9月8日 08:13',
   h1:'発注の時間です',hsub:'火曜日・2026年9月8日 08:12・在庫を入力 → 発注数を自動計算 → 送信',start:'発注を開始',yst:'昨日の評価',
   todayStatus:'本日のステータス',food:'食材',cons:'消耗品',notyet:'まだ発注されていません',ordered:'発注済み',sent:'送信済み',notstart:'未開始',none:'対象なし',
   q1:'今日はどちらを発注しますか？',q1s:'発注タイプを選んでください。タイプによって発注タイミングが異なります。',
@@ -343,7 +352,7 @@ const T={
   saveHint:'⏱ 今すぐ承認しない場合は、入力内容を保存して16:30に自動発注できます。',saveBtn:'保存して16:30に自動発注',editable:'16:30まで何度でも編集できます。',submit:'📦 発注申請',
   doneT:'発注申請を送信しました',doneS:(a,b)=>`${a} 品目・${b} 社ぶんを承認しました。<br>各仕入先の締切時刻（16:30 / 14:30）に自動で発注されます。<br>16:30 までは何度でも編集できます。`,home:'ホームへ戻る',
   pickStore:'店舗を選ぶ',tSaved:'保存しました。16:30に自動発注されます（再現版）',tGuest:'来客数を変えると発注数の目安が変わります（再現版）',tYst:'昨日の発注の評価を表示します（再現版）',tNeed:'すべての仕入先の在庫を入力してください'},
- EN:{reset:'Clear entries and start over',resetHint:'Tap this to practise again. It clears every stock count and quantity you entered.',resetDone:'Entries cleared. You can practise from the start',resetAsk:'Clear all stock counts and quantities and start over?',practice:'Practise again',steps:['① Notice','② Type','③ Stock','④ Confirm'],dt:'Tue, Sep 8, 2026 08:13',
+ EN:{helpOn:'Help mode on: touch a button to see what it does',helpOff:'Help mode off',reset:'Clear entries and start over',resetHint:'Tap this to practise again. It clears every stock count and quantity you entered.',resetDone:'Entries cleared. You can practise from the start',resetAsk:'Clear all stock counts and quantities and start over?',practice:'Practise again',steps:['① Notice','② Type','③ Stock','④ Confirm'],dt:'Tue, Sep 8, 2026 08:13',
   h1:'Time to order',hsub:'Tue, Sep 8, 2026 08:12 · Enter stock → auto-calculate → send',start:'Start ordering',yst:"Yesterday's review",
   todayStatus:"Today's status",food:'Food',cons:'Supplies',notyet:'Not ordered yet',ordered:'Ordered',sent:'Sent',notstart:'Not started',none:'None',
   q1:'What will you order today?',q1s:'Choose an order type. Timing differs by type.',
@@ -359,7 +368,7 @@ const T={
   saveHint:'⏱ If you do not approve now, your input can be saved and auto-ordered at 16:30.',saveBtn:'Save & auto-order at 16:30',editable:'Editable any time until 16:30.',submit:'📦 Submit order',
   doneT:'Order submitted',doneS:(a,b)=>`Approved ${a} items from ${b} suppliers.<br>They will be sent at each supplier cut-off (16:30 / 14:30).<br>Editable until 16:30.`,home:'Back to home',
   pickStore:'Choose store',tSaved:'Saved. It will be auto-ordered at 16:30 (demo)',tGuest:'Changing guests changes the suggested amounts (demo)',tYst:"Shows yesterday's review (demo)",tNeed:'Please enter stock for every supplier'},
- VI:{reset:'Xoá dữ liệu và bắt đầu lại',resetHint:'Chạm vào đây để luyện tập lại. Toàn bộ tồn kho và số lượng đã nhập sẽ bị xoá.',resetDone:'Đã xoá dữ liệu. Bạn có thể luyện lại từ đầu',resetAsk:'Xoá toàn bộ tồn kho và số lượng đã nhập rồi bắt đầu lại?',practice:'Luyện lại',steps:['① Thông báo','② Loại','③ Tồn kho','④ Xác nhận'],dt:'Thứ Ba, 08/09/2026 08:13',
+ VI:{helpOn:'Bật hướng dẫn: chạm vào nút để xem giải thích',helpOff:'Tắt hướng dẫn',reset:'Xoá dữ liệu và bắt đầu lại',resetHint:'Chạm vào đây để luyện tập lại. Toàn bộ tồn kho và số lượng đã nhập sẽ bị xoá.',resetDone:'Đã xoá dữ liệu. Bạn có thể luyện lại từ đầu',resetAsk:'Xoá toàn bộ tồn kho và số lượng đã nhập rồi bắt đầu lại?',practice:'Luyện lại',steps:['① Thông báo','② Loại','③ Tồn kho','④ Xác nhận'],dt:'Thứ Ba, 08/09/2026 08:13',
   h1:'Đã đến giờ đặt hàng',hsub:'Thứ Ba, 08/09/2026 08:12 · Nhập tồn kho → tự động tính → gửi',start:'Bắt đầu đặt hàng',yst:'Đánh giá hôm qua',
   todayStatus:'Trạng thái hôm nay',food:'Thực phẩm',cons:'Vật tư',notyet:'Chưa đặt hàng',ordered:'Đã đặt',sent:'Đã gửi',notstart:'Chưa bắt đầu',none:'Không có',
   q1:'Hôm nay bạn đặt loại nào?',q1s:'Chọn loại đặt hàng. Thời điểm gửi khác nhau theo loại.',
@@ -375,7 +384,7 @@ const T={
   saveHint:'⏱ Nếu chưa duyệt ngay, có thể lưu và tự động gửi lúc 16:30.',saveBtn:'Lưu & tự động gửi 16:30',editable:'Sửa được đến 16:30.',submit:'📦 Gửi đơn hàng',
   doneT:'Đã gửi đơn hàng',doneS:(a,b)=>`Đã duyệt ${a} mặt hàng của ${b} nhà cung cấp.<br>Đơn sẽ gửi theo hạn từng nhà (16:30 / 14:30).<br>Sửa được đến 16:30.`,home:'Về trang chính',
   pickStore:'Chọn cửa hàng',tSaved:'Đã lưu. Sẽ tự động gửi lúc 16:30 (bản demo)',tGuest:'Đổi số khách sẽ đổi lượng đề xuất (bản demo)',tYst:'Hiển thị đánh giá hôm qua (bản demo)',tNeed:'Vui lòng nhập tồn kho cho tất cả nhà cung cấp'},
- MY:{reset:'ထည့်ထားသည်ကို ဖျက်ပြီး အစမှ',resetHint:'ပြန်လေ့ကျင့်လိုပါက ဒါကို ထိပါ။ ထည့်ထားသော လက်ကျန်နှင့် အရေအတွက် အားလုံး ပျက်မည်။',resetDone:'ဖျက်ပြီးပါပြီ။ အစမှ ပြန်လေ့ကျင့်နိုင်ပါသည်',resetAsk:'ထည့်ထားသော လက်ကျန်နှင့် အရေအတွက် အားလုံးကို ဖျက်ပြီး အစမှ ပြန်စမလား',practice:'ပြန်လေ့ကျင့်ရန်',steps:['① အသိပေးချက်','② အမျိုးအစား','③ လက်ကျန်','④ အတည်ပြု'],dt:'အင်္ဂါ၊ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:13',
+ MY:{helpOn:'ရှင်းလင်းချက် ဖွင့်ပြီး - ခလုတ်ကို ထိပါ',helpOff:'ရှင်းလင်းချက် ပိတ်ပြီး',reset:'ထည့်ထားသည်ကို ဖျက်ပြီး အစမှ',resetHint:'ပြန်လေ့ကျင့်လိုပါက ဒါကို ထိပါ။ ထည့်ထားသော လက်ကျန်နှင့် အရေအတွက် အားလုံး ပျက်မည်။',resetDone:'ဖျက်ပြီးပါပြီ။ အစမှ ပြန်လေ့ကျင့်နိုင်ပါသည်',resetAsk:'ထည့်ထားသော လက်ကျန်နှင့် အရေအတွက် အားလုံးကို ဖျက်ပြီး အစမှ ပြန်စမလား',practice:'ပြန်လေ့ကျင့်ရန်',steps:['① အသိပေးချက်','② အမျိုးအစား','③ လက်ကျန်','④ အတည်ပြု'],dt:'အင်္ဂါ၊ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:13',
   h1:'မှာယူရန် အချိန်ရောက်ပါပြီ',hsub:'အင်္ဂါ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:12 · လက်ကျန်ထည့် → အလိုအလျောက်တွက် → ပို့',start:'မှာယူမှု စတင်ရန်',yst:'မနေ့ အဆင့်သတ်မှတ်ချက်',
   todayStatus:'ယနေ့ အခြေအနေ',food:'စားသောက်ကုန်',cons:'အသုံးအဆောင်',notyet:'မမှာယူရသေးပါ',ordered:'မှာယူပြီး',sent:'ပို့ပြီး',notstart:'မစတင်သေး',none:'မရှိပါ',
   q1:'ယနေ့ ဘယ်အမျိုးအစား မှာမလဲ',q1s:'မှာယူမည့် အမျိုးအစား ရွေးပါ။ အမျိုးအစားအလိုက် ပို့သည့်အချိန် မတူပါ။',
@@ -421,6 +430,160 @@ const orderCount=()=>ITEMS.map((x,i)=>i).filter(i=>(finalOf(i)||0)>0).length;
 const changedCount=()=>ITEMS.map((x,i)=>i).filter(i=>S.final[key(i)]!==undefined&&S.final[key(i)]!==suggest(i)).length;
 const supWithOrder=()=>SUPPLIERS.filter(s=>idxOf(s.id).some(i=>(finalOf(i)||0)>0)).length;
 
+
+/* ================= スキッチ風の解説 =================
+   押した瞬間にその下へ吹き出しを出し約3秒で消す。右上の「？」をオンにすると
+   触れただけで出る（設定は端末に残る）。文言は画面に書き込まず、ここに集約する。 */
+let HELP_ON=localStorage.getItem('nagi_help')==='1';
+function toggleHelp(){HELP_ON=!HELP_ON;localStorage.setItem('nagi_help',HELP_ON?'1':'0');render();toast(HELP_ON?t('helpOn'):t('helpOff'))}
+const HELP={
+ JA:{
+  stepsNav:'手順のタブです。今どこにいるかが分かり、済んだところへは戻れます。',
+  helpToggle:'解説モード。オンにすると、触れただけで各ボタンの説明が出ます。',
+  lang:'表示する言語を切り替えます。日本語・英語・ベトナム語・ミャンマー語。',
+  store:'発注する店舗を選びます。凪ちゃんモデルの店舗は品目が共通です。',
+  start:'発注を始めます。この後、種類を選んで在庫を入れていきます。',
+  yst:'昨日出した発注の結果を振り返ります。',
+  statusRow:'今日その種類の発注が終わっているかどうかです。',
+  food:'野菜・肉・調味料などの発注。14:30 に自動で発注されるので、それまでは何度でも直せます。',
+  cons:'箸やエプロンなどの発注。この店には対象の品目がないので選べません。',
+  supTab:'仕入先を切り替えます。数字はまだ入力していない品目の数、チェックは入力が終わった印です。',
+  guests:'今日の見込み客数です。これが多いほど、必要な在庫の目安も増えます。',
+  stepper:'在庫を1つずつ増やしたり減らしたりします。',
+  qty:'数えた在庫の数を直接入れられます。押すとキーボードが出ます。',
+  slider:'つまみを動かして在庫を入れます。0 から定数までの範囲です。',
+  est:'その在庫で何食分あるか、あと何時間もつかの目安です。赤は足りなくなりそうという印。',
+  orderRow:'発注する数です。「定数 −　いま数えた在庫」で自動計算されます。自分で計算しなくて大丈夫です。',
+  nextSup:'この仕入先の入力を終えて次へ進みます。全部の品目に在庫を入れると押せます。',
+  back:'ひとつ前に戻ります。入れた在庫は消えません。',
+  kpi:'発注する品目の数、仕入先の数、提案から自分で変えた数です。',
+  finalStep:'発注する数をここで直せます。直した行は黄色くなります。',
+  save:'いま承認せずに保存します。16:30 になると自動で発注されます。',
+  submit:'この内容で発注を申請します。締切の時刻に各仕入先へ送られます。',
+  reset:'練習用。入れた在庫と数量をすべて消して、最初からやり直せます。',
+  home:'最初の画面に戻ります。入れた在庫は残っています。'},
+ EN:{
+  stepsNav:'The step tabs. They show where you are, and you can go back to a finished step.',
+  helpToggle:'Help mode. Turn it on and a note appears just by touching a button.',
+  lang:'Switch the display language: Japanese, English, Vietnamese, Burmese.',
+  store:'Choose the store you are ordering for. Nagi-chan model stores share the same items.',
+  start:'Start ordering. Next you pick the type and enter your stock.',
+  yst:'Look back at how yesterday’s order turned out.',
+  statusRow:'Whether that type has been ordered today.',
+  food:'Vegetables, meat and seasoning. Sent automatically at 14:30, so you can fix it any time before that.',
+  cons:'Chopsticks, aprons and so on. This store has no items of this type, so it cannot be selected.',
+  supTab:'Switch supplier. The number is how many items are still blank; a check means you are done.',
+  guests:'Expected guests today. The more guests, the more stock you need.',
+  stepper:'Add or subtract one at a time.',
+  qty:'Type the count you made. Tap it and the keyboard opens.',
+  slider:'Drag to set the stock, from 0 up to the par level.',
+  est:'How many servings you have and roughly how many hours it lasts. Red means it may run out.',
+  orderRow:'The amount to order. It is calculated for you: par minus the stock you counted.',
+  nextSup:'Finish this supplier and go to the next. It unlocks once every item has a stock count.',
+  back:'Go back one step. Nothing you entered is lost.',
+  kpi:'Number of items, number of suppliers, and how many you changed from the suggestion.',
+  finalStep:'Adjust the amount here. Rows you change turn yellow.',
+  save:'Save without approving now. It will be sent automatically at 16:30.',
+  submit:'Submit this order. It is sent to each supplier at their cut-off time.',
+  reset:'For practice. Clears every stock count and quantity so you can start over.',
+  home:'Back to the first screen. What you entered is still there.'},
+ VI:{
+  stepsNav:'Các bước. Cho biết bạn đang ở đâu và có thể quay lại bước đã xong.',
+  helpToggle:'Chế độ hướng dẫn. Bật lên thì chỉ cần chạm là hiện giải thích.',
+  lang:'Đổi ngôn ngữ hiển thị: Nhật, Anh, Việt, Miến.',
+  store:'Chọn cửa hàng cần đặt. Các cửa hàng mô hình Nagi-chan dùng chung danh mục.',
+  start:'Bắt đầu đặt hàng. Sau đó chọn loại và nhập tồn kho.',
+  yst:'Xem lại kết quả đơn hàng hôm qua.',
+  statusRow:'Cho biết hôm nay loại đó đã đặt hay chưa.',
+  food:'Rau, thịt, gia vị. Tự động gửi lúc 14:30, trước đó sửa bao nhiêu lần cũng được.',
+  cons:'Đũa, tạp dề… Cửa hàng này không có mặt hàng loại này nên không chọn được.',
+  supTab:'Đổi nhà cung cấp. Số là số mặt hàng chưa nhập, dấu tích là đã xong.',
+  guests:'Số khách dự kiến hôm nay. Khách càng nhiều thì tồn kho cần càng nhiều.',
+  stepper:'Tăng hoặc giảm từng đơn vị.',
+  qty:'Nhập trực tiếp số bạn đã đếm. Chạm vào để mở bàn phím.',
+  slider:'Kéo để nhập tồn kho, từ 0 đến định mức.',
+  est:'Số suất còn lại và còn khoảng bao nhiêu giờ. Màu đỏ là sắp hết.',
+  orderRow:'Số lượng đặt. Hệ thống tự tính: định mức trừ tồn kho bạn đếm.',
+  nextSup:'Xong nhà cung cấp này và sang nhà tiếp theo. Chỉ bật khi mọi mặt hàng đã có tồn kho.',
+  back:'Quay lại một bước. Dữ liệu đã nhập không mất.',
+  kpi:'Số mặt hàng, số nhà cung cấp, và số bạn đã sửa khác đề xuất.',
+  finalStep:'Sửa số lượng ở đây. Dòng đã sửa sẽ chuyển vàng.',
+  save:'Lưu mà chưa duyệt. Đơn sẽ tự gửi lúc 16:30.',
+  submit:'Gửi đơn này. Đơn sẽ đến từng nhà cung cấp vào giờ hạn của họ.',
+  reset:'Dùng để luyện tập. Xoá hết tồn kho và số lượng để bắt đầu lại.',
+  home:'Về màn hình đầu. Dữ liệu đã nhập vẫn còn.'},
+ MY:{
+  stepsNav:'အဆင့် တက်ဘ်များ။ ယခု ရောက်နေသည့် အဆင့်ကို ပြပြီး ပြီးသော အဆင့်သို့ ပြန်နိုင်သည်။',
+  helpToggle:'ရှင်းလင်းချက် မုဒ်။ ဖွင့်ထားပါက ထိလိုက်ရုံနှင့် ရှင်းလင်းချက် ပေါ်လာမည်။',
+  lang:'ပြသမည့် ဘာသာစကား ပြောင်းရန်။ ဂျပန်၊ အင်္ဂလိပ်၊ ဗီယက်နမ်၊ မြန်မာ။',
+  store:'မှာယူမည့် ဆိုင် ရွေးပါ။ Nagi-chan မော်ဒယ် ဆိုင်များ ပစ္စည်းစာရင်း တူပါသည်။',
+  start:'မှာယူမှု စတင်ပါ။ ထို့နောက် အမျိုးအစား ရွေးပြီး လက်ကျန် ထည့်ပါ။',
+  yst:'မနေ့ မှာယူမှု၏ ရလဒ်ကို ပြန်ကြည့်ပါ။',
+  statusRow:'ယနေ့ ထိုအမျိုးအစား မှာယူပြီးမပြီး ဖော်ပြသည်။',
+  food:'အသီးအရွက်၊ အသား၊ အနှစ်။ 14:30 တွင် အလိုအလျောက် ပို့မည်၊ ထိုအချိန်အထိ အကြိမ်ကြိမ် ပြင်နိုင်သည်။',
+  cons:'တူ၊ ရင်စည်း စသည်။ ဒီဆိုင်တွင် ဒီအမျိုးအစား ပစ္စည်း မရှိသဖြင့် ရွေးမရပါ။',
+  supTab:'ပေးသွင်းသူ ပြောင်းရန်။ ဂဏန်းသည် မထည့်ရသေးသော ပစ္စည်းအရေအတွက်၊ အမှတ်သည် ပြီးပြီ ဟု ဆိုလိုသည်။',
+  guests:'ယနေ့ ခန့်မှန်း ဧည့်သည်။ ဧည့်သည်များလျှင် လိုအပ်သော လက်ကျန်လည်း များမည်။',
+  stepper:'တစ်ခုချင်း တိုး/လျှော့ ရန်။',
+  qty:'ရေတွက်ရသော အရေအတွက်ကို တိုက်ရိုက် ထည့်ပါ။ ထိပါက ကီးဘုတ် ပေါ်မည်။',
+  slider:'ဆွဲပြီး လက်ကျန် ထည့်ပါ။ 0 မှ သတ်မှတ်ချက် အထိ။',
+  est:'ကျန်သည့် အသုပ်အရေအတွက်နှင့် ခန့်မှန်း နာရီ။ အနီသည် ကုန်တော့မည် ဟု ဆိုလိုသည်။',
+  orderRow:'မှာယူမည့် အရေအတွက်။ သတ်မှတ်ချက် အနုတ် ရေတွက်ရသော လက်ကျန် ဖြင့် အလိုအလျောက် တွက်ပေးသည်။',
+  nextSup:'ဒီပေးသွင်းသူ ပြီးပြီး နောက်တစ်ခုသို့။ ပစ္စည်းအားလုံး လက်ကျန် ထည့်ပြီးမှ နှိပ်နိုင်မည်။',
+  back:'တစ်ဆင့် ပြန်ရန်။ ထည့်ထားသည် မပျက်ပါ။',
+  kpi:'ပစ္စည်းအရေအတွက်၊ ပေးသွင်းသူအရေအတွက်၊ အဆိုပြုမှ ကိုယ်တိုင် ပြင်ခဲ့သည့် အရေအတွက်။',
+  finalStep:'မှာယူမည့် အရေအတွက်ကို ဒီမှာ ပြင်နိုင်သည်။ ပြင်ထားသော လိုင်း အဝါ ဖြစ်မည်။',
+  save:'ယခု အတည်မပြုဘဲ သိမ်းရန်။ 16:30 တွင် အလိုအလျောက် ပို့မည်။',
+  submit:'ဒီအတိုင်း မှာယူမှု တင်ပြရန်။ ပေးသွင်းသူတိုင်း၏ သတ်မှတ်ချိန်တွင် ပို့မည်။',
+  reset:'လေ့ကျင့်ရန်။ ထည့်ထားသော လက်ကျန်နှင့် အရေအတွက် အားလုံး ဖျက်ပြီး အစမှ ပြန်စနိုင်သည်။',
+  home:'ပထမ စာမျက်နှာ ပြန်သွားရန်။ ထည့်ထားသည် ကျန်နေမည်။'},
+};
+const hp=k=>(HELP[S.lang]&&HELP[S.lang][k])||HELP.JA[k]||'';
+function helpFor(el){
+ if(el.id==='helpToggle')return hp('helpToggle');
+ if(el.closest('.langs'))return hp('lang');
+ if(el.closest('.store'))return hp('store');
+ if(el.closest('.hero'))return hp('start');
+ if(el.closest('.ghost')&&el.closest('.hd'))return hp('yst');
+ if(el.closest('.list .row'))return hp('statusRow');
+ if(el.closest('.tcard'))return el.classList.contains('off')||el.closest('.tcard').classList.contains('off')?hp('cons'):hp('food');
+ if(el.closest('.sup'))return hp('supTab');
+ if(el.closest('.guest'))return hp('guests');
+ if(el.closest('.stp'))return hp('stepper');
+ if(el.closest('.qty'))return hp('qty');
+ if(el.type==='range')return hp('slider');
+ if(el.closest('.est'))return hp('est');
+ if(el.closest('.foot'))return hp('orderRow');
+ if(el.closest('.steps'))return hp('stepsNav');
+ if(el.closest('.resetbtn'))return hp('reset');
+ if(el.closest('.done-w'))return hp('home');
+ if(el.closest('.btn.pri'))return hp('nextSup');
+ if(el.closest('.btn.sec')||el.closest('.back')||el.closest('.back2'))return hp('back');
+ if(el.closest('.kpi'))return hp('kpi');
+ if(el.closest('.mini')||el.closest('.fin'))return hp('finalStep');
+ if(el.closest('.saveln'))return hp('save');
+ if(el.closest('.submit'))return hp('submit');
+ return ''}
+let helpEl=null,helpTimer=null;
+function showHelp(target,sticky){
+ const txt=helpFor(target); if(!txt){hideHelp();return}
+ if(!helpEl){helpEl=document.createElement('div');helpEl.className='hcall';document.body.appendChild(helpEl)}
+ helpEl.innerHTML='<span class="harrow"></span>'+txt.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+ helpEl.hidden=false;
+ const r=target.getBoundingClientRect();const w=Math.min(320,window.innerWidth-24);
+ let left=Math.max(12,Math.min(r.left,window.innerWidth-w-12));let top=r.bottom+10;
+ helpEl.style.width=w+'px';helpEl.style.left=left+'px';helpEl.classList.remove('up');
+ if(top+130>window.innerHeight){helpEl.style.top='auto';helpEl.style.bottom=(window.innerHeight-r.top+10)+'px';helpEl.classList.add('up')}
+ else{helpEl.style.bottom='auto';helpEl.style.top=top+'px'}
+ const ax=Math.max(14,Math.min(r.left+r.width/2-left,w-14));helpEl.querySelector('.harrow').style.left=ax+'px';
+ clearTimeout(helpTimer); if(!sticky)helpTimer=setTimeout(hideHelp,3200)}
+function hideHelp(){if(helpEl)helpEl.hidden=true}
+const HSEL='button,.hero,.tcard,.sup,.qty,input[type=range],.stp,.mini,.fin,.est,.foot,.kpi,.list .row,.guest,.saveln,.langs button';
+document.addEventListener('pointerdown',e=>{const el=e.target.closest(HSEL);if(!el||el.closest('.hcall'))return;showHelp(el,false)});
+document.addEventListener('pointerover',e=>{if(!HELP_ON)return;const el=e.target.closest(HSEL);if(!el){hideHelp();return}showHelp(el,true)});
+document.addEventListener('pointerout',e=>{if(HELP_ON&&!(e.relatedTarget&&e.relatedTarget.closest&&e.relatedTarget.closest(HSEL)))hideHelp()});
+window.addEventListener('scroll',hideHelp,true);
+
 /* ============ 部品 ============ */
 function header(){
  const steps=[['home',t('steps')[0]],['type',t('steps')[1]],['input',t('steps')[2]],['confirm',t('steps')[3]]];
@@ -429,6 +592,7 @@ function header(){
  <button class="store" onclick="S.sheet='store';render()">⌂ <span class="nm">${esc(storeName())}</span> <span class="ic">▾</span></button>
  <div class="steps">${steps.map(([k,l],n)=>`<button class="${k===S.step||(S.step==='done'&&k==='confirm')?'on':n<cur?'done':''}" onclick="goStep('${k}')">${n<cur?'✓ ':''}${l}</button>`).join('')}</div>
  <div class="rgt"><span>${esc(t('dt'))}</span>
+ <button class="helpt" id="helpToggle" aria-pressed="${HELP_ON}" onclick="toggleHelp()">?</button>
  <div class="langs">${LANGS.map(([c,f])=>`<button aria-pressed="${S.lang===c}" onclick="setLang('${c}')">${f} ${c}</button>`).join('')}</div></div></div>`;
 }
 function home(){
@@ -522,6 +686,6 @@ function storeSheet(){return `<div class="veil" onclick="if(event.target===this)
 function pickStoreId(id){localStorage.setItem('nagi_store',id);const u=new URL(location.href);u.searchParams.set('store',id);location.href=u.toString()}
 function render(){$('app').innerHTML=header()+(S.step==='home'?home():S.step==='type'?typeSel():S.step==='input'?inputView():S.step==='confirm'?confirmView():doneView())+(S.sheet==='store'?storeSheet():'');
  document.querySelectorAll('input[type=range]').forEach(r=>{const set=()=>r.style.setProperty('--p',(r.value/r.max*100)+'%');set();r.addEventListener('input',set)})}
-Object.assign(window,{resetAll,goStep,setStock,bump,setFinal,bumpFinal,nextSup,prevSup,submitOrder,render,S,toast,setLang,pickStoreId,t});
+Object.assign(window,{toggleHelp,showHelp,hideHelp,resetAll,goStep,setStock,bump,setFinal,bumpFinal,nextSup,prevSup,submitOrder,render,S,toast,setLang,pickStoreId,t});
 render();
 </script>
