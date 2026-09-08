@@ -284,6 +284,7 @@ const SUPPLIERS=[
 ];
 /* per: 1単位あたりの提供数（食分/杯分/本分/人分）。無い品はコマ数だけ */
 const ITEMS=[
+ // かにわ
  {s:'kaniwa',n:'あきたこまち（無洗米）',u:'袋',par:19,em:'🍚',per:38,pl:'食分'},
  {s:'kaniwa',n:'キャベツ（トッピング野菜）',u:'個',par:3,em:'🥬',hrs:24},
  {s:'kaniwa',n:'もやし（トッピング野菜）',u:'kg',par:8,em:'🌱',hrs:8},
@@ -292,29 +293,33 @@ const ITEMS=[
  {s:'kaniwa',n:'輸入むき玉ねぎ真空（1ｋg）',u:'pc',par:6,em:'🧅',hrs:10},
  {s:'kaniwa',n:'玉子　Lバラ',u:'c/s',par:2,em:'🥚',hrs:36},
  {s:'kaniwa',n:'皮付きニンニク',u:'p c',par:2,em:'🧄',hrs:24},
- {s:'saude',n:'カナダ産冷蔵大麦三元豚ピクニック',u:'kg',par:52,em:'🥩',per:12,pl:'食分'},
- {s:'saude',n:'信長（NOBUNAGA',u:'袋',par:11,em:'🍜',per:30,pl:'食分'},
+ // Saude
+ {s:'saude',n:'カナダ産冷蔵大麦三元豚ピクニック',u:'kg',par:52,em:'🥩',per:8,pl:'食分'},
+ {s:'saude',n:'信長（NOBUNAGA',u:'袋',par:11,em:'🍜',per:40,pl:'食分'},
  {s:'saude',n:'神田の愛人',u:'箱',par:7,em:'🍜',per:60,pl:'食分'},
  {s:'saude',n:'生メンマ２k',u:'袋',par:2,em:'🎋',per:250,pl:'人分'},
- {s:'saude',n:'冷凍豚ゲンコツハーフカット 輸入バラ',u:'kg',par:10,em:'🥓',hrs:20},
- {s:'saude',n:'チリソース',u:'袋',par:3,em:'🌶️',hrs:30},
- {s:'saude',n:'辛味中華',u:'pc',par:1,em:'🌶️',hrs:40},
- {s:'shimizu',n:'ＧＳ紅しょうが　千切り　1kg',u:'袋',par:6,em:'🫚',hrs:30},
- {s:'shimizu',n:'キューピー サラダ油 ベストブレンド',u:'本',par:4,em:'🛢️',hrs:40},
+ {s:'saude',n:'冷凍豚ゲンコツハーフカット 輸入バラ',u:'kg',par:10,em:'🥓',per:45,pl:'食分'},
+ {s:'saude',n:'チリソース',u:'袋',par:3,em:'🌶️',per:500,pl:'杯分'},
+ {s:'saude',n:'辛味中華',u:'pc',par:1,em:'🌶️',per:1250,pl:'杯分'},
+ // 清水屋
+ {s:'shimizu',n:'ＧＳ紅しょうが　千切り　1kg',u:'袋',par:6,em:'🫚',per:200,pl:'杯分'},
+ {s:'shimizu',n:'Ｊ－オイル　サラダ油　ベストブレンド',u:'本',par:4,em:'🛢️',per:1000,pl:'杯分'},
+ {s:'shimizu',n:'かどや　調合ごま油',u:'本',par:3,em:'🛢️',per:1000,pl:'杯分'},
+ {s:'shimizu',n:'キッコーマン　濃い口醤油　天パット缶',u:'缶',par:2,em:'🥫',per:1000,pl:'杯分'},
+ {s:'shimizu',n:'ギャバン　ブラック&ホワイトペッパー　90ｇ',u:'個',par:2,em:'🧂',per:1000,pl:'杯分'},
+ {s:'shimizu',n:'スプーン　グラニュー糖　1ｋg',u:'袋',par:2,em:'🍬',per:800,pl:'杯分'},
+ {s:'shimizu',n:'ヒビキ　ホワイトペッパー殺菌品',u:'袋',par:2,em:'🧂',per:1000,pl:'杯分'},
  {s:'shimizu',n:'ミツカン　穀物酢　1.8L',u:'本',par:2,em:'🍶',per:600,pl:'杯分'},
- {s:'shimizu',n:'アデカ　クラウンラード　　15ｋgD1',u:'缶',par:3,em:'🥫',hrs:30},
- {s:'shimizu',n:'九鬼　星印いりごま　白',u:'袋',par:3,em:'🌰',hrs:24},
- {s:'shimizu',n:'銚子屋　特選青がっぱ',u:'袋',par:10,em:'🥒',hrs:12},
- {s:'shimizu',n:'東丸　うすくち醤油　1.8Ｌ',u:'本',par:2,em:'🍶',hrs:48},
- {s:'shimizu',n:'味の素　マヨネーズライト',u:'本',par:6,em:'🥄',hrs:26},
- {s:'shimizu',n:'さわかぜ　わかめ　500g',u:'袋',par:2,em:'🌿',hrs:36},
- {s:'shimizu',n:'業務用こしょう　白',u:'本',par:2,em:'🧂',hrs:60},
- {s:'shimizu',n:'ラー油　1.6kg',u:'本',par:2,em:'🌶️',hrs:50},
- {s:'shimizu',n:'味塩こしょう',u:'本',par:2,em:'🧂',hrs:60},
- {s:'shimizu',n:'花椒　パウダー',u:'袋',par:1,em:'🌿',hrs:70},
- {s:'shimizu',n:'白ごま油　1.6kg',u:'本',par:2,em:'🛢️',hrs:50},
+ {s:'shimizu',n:'アデカ　クラウンラード　　15ｋgD1',u:'缶',par:3,em:'🥫',per:400,pl:'杯分'},
+ {s:'shimizu',n:'九鬼　星印いりごま　白',u:'袋',par:3,em:'🌰',per:400,pl:'杯分'},
+ {s:'shimizu',n:'銚子屋　特選青がっぱ',u:'袋',par:10,em:'🥒',per:110,pl:'杯分'},
+ {s:'shimizu',n:'東丸　うすくち醤油　1.8Ｌ',u:'本',par:2,em:'🍶',per:1000,pl:'杯分'},
+ {s:'shimizu',n:'味の素　マヨネーズライト',u:'本',par:6,em:'🥄',per:200,pl:'杯分'},
+ {s:'shimizu',n:'さわかぜ　わかめ　500g',u:'袋',par:2,em:'🌿',per:1000,pl:'杯分'},
+ // 榎本
  {s:'enomoto',n:'サッポロ ラガー 中瓶',u:'本',par:42,em:'🍺',per:9.5,pl:'本分'},
- {s:'eguchi',n:'焼海苔１／４　10ｐc',u:'c/s',par:1,em:'🍙',hrs:70},
+ // 江口海苔
+ {s:'eguchi',n:'焼海苔１／４　10ｐc',u:'c/s',par:1,em:'🍙',per:27000,pl:'枚分'},
 ];
 const GUESTS=300;
 
