@@ -6,15 +6,12 @@
 ## リンク
 
 - アプリ本体: https://ramennagi-nagi-spirits.github.io/nagi-order-demo/
-- 店舗別 QR（印刷用）: https://ramennagi-nagi-spirits.github.io/nagi-order-demo/qr.html
+- QR（印刷用・1枚）: https://ramennagi-nagi-spirits.github.io/nagi-order-demo/qr.html
 
 ## 使い方
 
-QR かリンクを開くと、その店舗の状態で操作画面が出ます（ログイン不要）。
-
-```
-https://ramennagi-nagi-spirits.github.io/nagi-order-demo/?store=<店舗ID>
-```
+QR かリンクを開くと、そのまま操作画面が出ます（ログイン不要）。QR は**1枚だけ**で、凪ちゃんモデルの店舗は共通です。
+店舗は画面上の店名から選べます（選択は端末に残ります）。`?store=<店舗ID>` を付けて特定の店で開くこともできます。
 
 | 店舗ID | 店舗名 |
 |---|---|

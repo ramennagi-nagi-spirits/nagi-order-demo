@@ -1,43 +1,35 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NAGI 発注システム 画面再現 — 店舗別 QR</title>
+<title>NAGI 発注システム 画面再現 — QR</title>
 <style>
 :root{--ink:#111418;--mute:#98A1AE;--line:#E9ECF0;--nagi:#A4133C}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Noto Sans JP',-apple-system,'Hiragino Sans',sans-serif;background:#FAFAFA;color:var(--ink);padding:28px 20px 60px}
-h1{font-size:22px;font-weight:900;text-align:center}
-.sub{text-align:center;color:var(--mute);font-size:13px;margin:8px 0 26px;line-height:1.8}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;max-width:1000px;margin:0 auto}
-.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;box-shadow:0 1px 3px rgba(16,24,40,.06)}
-.card h2{font-size:16px;font-weight:900;margin-bottom:4px}
-.card .id{font-size:11px;color:var(--mute);margin-bottom:12px}
-.card .qr{display:inline-block;padding:10px;background:#fff;border-radius:8px}
-.card .qr img,.card .qr canvas{width:180px;height:180px;image-rendering:pixelated}
-.card a{display:block;margin-top:12px;font-size:11px;color:var(--nagi);word-break:break-all;text-decoration:none}
-.note{max-width:760px;margin:30px auto 0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:13px;line-height:1.9;color:#5B6472}
-@media print{body{background:#fff;padding:0}.note{display:none}.card{break-inside:avoid;box-shadow:none}}
+body{font-family:'Noto Sans JP',-apple-system,'Hiragino Sans',sans-serif;background:#FAFAFA;color:var(--ink);padding:34px 20px 60px;text-align:center}
+h1{font-size:23px;font-weight:900}
+.sub{color:var(--mute);font-size:13px;margin:10px 0 26px;line-height:1.9}
+.card{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 30px;box-shadow:0 1px 3px rgba(16,24,40,.06)}
+.qr{display:inline-block}
+.qr img,.qr canvas{width:260px;height:260px;image-rendering:pixelated}
+.url{margin-top:16px;font-size:12px;color:var(--nagi);word-break:break-all;text-decoration:none;display:block}
+.steps{max-width:560px;margin:28px auto 0;text-align:left;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;font-size:13.5px;line-height:2;color:#5B6472}
+.steps b{color:var(--ink)}
+.note{max-width:560px;margin:16px auto 0;font-size:12px;color:var(--mute);line-height:1.9;text-align:left}
+@media print{body{background:#fff;padding:10mm}.steps,.note{display:none}.card{box-shadow:none;border:0}}
 </style>
-<h1>NAGI 発注システム 画面再現</h1>
-<div class="sub">店舗ごとの QR。読み取るとその店舗の状態で操作画面が開きます（ログイン不要）。<br>印刷して店に貼るか、画像を保存して配ってください。</div>
-<div class="grid" id="grid"></div>
-<div class="note">
- <b>スマホでアプリのように使う</b>：QR を読む → Safari で開く → 共有 → 「ホーム画面に追加」。以降はアイコンから全画面で起動します。<br>
- <b>ご注意</b>：これは操作を覚えるための再現版で、実際の発注は行われません。リロードすると最初から始まります。
+<h1>NAGI 発注システム</h1>
+<div class="sub">読み取ると発注の画面が開きます（ログイン不要）。<br>凪ちゃんモデルの店舗は共通で、店舗は画面の店名から選べます。</div>
+<div class="card"><div class="qr" id="qr"></div><a class="url" id="u"></a></div>
+<div class="steps">
+ <b>スマホでアプリのように使う</b><br>
+ ① QR を読む → Safari で開く<br>
+ ② 共有ボタン → 「ホーム画面に追加」<br>
+ ③ 以降はアイコンから全画面で起動します
 </div>
+<div class="note">操作を覚えるための再現版です。実際の発注は行われません。リロードすると最初から始まります。</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-const BASE=location.href.replace(/qr\.html.*$/,'');
-const STORES=[
- ['egota','江古田なぎちゃん'],['omori_new','大森なぎちゃん'],['shinjuku_new','新宿ナギチャン'],
- ['sinjuku_ecchann','新宿えっちゃん'],['kawasakinishi_new','川崎西口なぎちゃん'],
-];
-const g=document.getElementById('grid');
-STORES.forEach(([id,name])=>{
-  const url=BASE+'?store='+id;
-  const d=document.createElement('div');d.className='card';
-  d.innerHTML=`<h2>${name}</h2><div class="id">${id}</div><div class="qr"></div><a href="${url}">${url}</a>`;
-  g.appendChild(d);
-  new QRCode(d.querySelector('.qr'),{text:url,width:180,height:180,correctLevel:QRCode.CorrectLevel.M});
-});
+const url=location.href.replace(/qr\.html.*$/,'');
+document.getElementById('u').textContent=url; document.getElementById('u').href=url;
+new QRCode(document.getElementById('qr'),{text:url,width:260,height:260,correctLevel:QRCode.CorrectLevel.M});
 </script>
