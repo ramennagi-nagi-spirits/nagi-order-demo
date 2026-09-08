@@ -1,0 +1,557 @@
+<meta charset="utf-8">
+<title>NAGI 発注システム 画面再現</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#141519">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="NAGI 発注">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --bg:#FAFAFA; --panel:#FFF; --ink:#111418; --ink2:#5B6472; --mute:#98A1AE; --line:#E9ECF0; --line2:#DFE3E9;
+  --nagi:#A4133C; --nagi2:#7A0E2C; --green:#0F8A5F; --green-bg:#EAF6F1; --amber:#B7791F; --red:#C62828;
+  --pink-row:#FDF2F5; --blue:#2563EB; --blue-bg:#EFF4FF;
+  --f:'Noto Sans JP',-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;
+  --sh:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:14px;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.app{min-height:100dvh;display:flex;flex-direction:column}
+/* header */
+.top{height:44px;background:#141519;color:#fff;display:flex;align-items:center;gap:14px;padding:0 12px;position:sticky;top:0;z-index:30}
+.logo{display:flex;align-items:center;gap:7px;flex:none}
+.logo .mk{width:22px;height:22px;border-radius:5px;background:var(--nagi);display:grid;place-items:center;font-size:11px;font-weight:900}
+.logo .tx{line-height:1.1}.logo .tx b{font-size:10.5px;letter-spacing:.06em;display:block}.logo .tx span{font-size:7.5px;color:#9AA3B0;letter-spacing:.1em}
+.store{display:flex;align-items:center;gap:6px;background:#22242A;border-radius:8px;height:28px;padding:0 10px;font-size:12px;font-weight:700;white-space:nowrap;flex:none}
+.store .ic{opacity:.6;font-size:10px}
+.steps{flex:1;display:flex;justify-content:center;gap:4px;overflow-x:auto;scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.steps button{height:24px;padding:0 11px;border-radius:12px;font-size:11px;font-weight:700;color:#8C94A2;white-space:nowrap;flex:none}
+.steps button.done{color:#C9CFD8}
+.steps button.on{background:var(--nagi);color:#fff}
+.rgt{display:flex;align-items:center;gap:8px;flex:none;font-size:11px;color:#9AA3B0;white-space:nowrap}
+.langs{display:flex;gap:3px}
+.langs button{height:26px;padding:0 8px;border-radius:6px;font-size:10.5px;font-weight:700;color:#9AA3B0;display:flex;align-items:center;gap:4px}
+.langs button[aria-pressed=true]{background:#fff;color:#141519}
+.out{width:26px;height:26px;border-radius:6px;display:grid;place-items:center;color:#9AA3B0}
+/* home */
+.wrap{max-width:1060px;margin:0 auto;padding:34px 20px 80px;width:100%}
+h1{font-size:26px;font-weight:900;letter-spacing:-.02em}
+.sub{color:var(--mute);font-size:12.5px;margin-top:7px}
+.hero{margin-top:26px;width:100%;border-radius:14px;background:linear-gradient(135deg,#B0143F,#7C0E2C);color:#fff;height:256px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 26px -14px rgba(124,14,44,.7)}
+.hero .pl{font-size:34px;font-weight:300;line-height:1}
+.hero .lb{font-size:23px;font-weight:900}
+.hd{display:flex;justify-content:space-between;align-items:flex-end}
+.ghost{border:1px solid var(--line2);background:#fff;border-radius:8px;height:30px;padding:0 12px;font-size:11.5px;font-weight:700;color:var(--ink2)}
+.lab{font-size:11px;color:var(--mute);font-weight:700;margin:26px 0 8px}
+.list{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--sh)}
+.list .row{display:flex;align-items:center;gap:12px;padding:16px 18px;border-top:1px solid var(--line)}
+.list .row:first-child{border-top:0}
+.list .row .ic{width:22px;text-align:center;font-size:16px}
+.list .row .nm{font-weight:700;width:74px}
+.list .row .ms{flex:1;color:var(--ink2);font-size:13px}
+.list .row .st{color:var(--mute);font-size:11.5px}
+/* type select */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+.tcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;text-align:left;transition:.14s;box-shadow:var(--sh)}
+.tcard:hover{border-color:#C9D0DA}
+.tcard.on{border-color:var(--green);box-shadow:0 0 0 1px var(--green),var(--sh)}
+.tcard.off{opacity:.55;cursor:not-allowed}
+.tcard .em{font-size:22px}
+.tcard h3{font-size:19px;font-weight:900;margin:12px 0 8px}
+.tcard p{color:var(--mute);font-size:12px;line-height:1.75}
+.pillg{margin-top:14px;display:inline-flex;align-items:center;gap:6px;background:#0E7A55;color:#fff;border-radius:7px;height:30px;padding:0 13px;font-size:12px;font-weight:700}
+.pillx{margin-top:14px;display:inline-flex;align-items:center;background:#F1F3F6;color:var(--mute);border-radius:7px;height:30px;padding:0 13px;font-size:12px;font-weight:700}
+.note{margin-top:22px;background:#F2F9F5;border:1px solid #DAEEE4;border-radius:10px;padding:14px 16px;font-size:12px;line-height:1.9}
+.note b{font-weight:700}
+.back{margin-top:22px;color:var(--ink2);font-size:12.5px}
+/* input layout */
+.split{display:flex;min-height:calc(100dvh - 44px)}
+.side{width:176px;flex:none;border-right:1px solid var(--line);background:#FBFBFC;padding:14px 0}
+.side .h{font-size:10.5px;color:var(--mute);font-weight:700;padding:0 14px 10px}
+.sup{display:flex;align-items:center;gap:9px;padding:9px 12px;width:100%;text-align:left;border-left:3px solid transparent}
+.sup.on{background:#FDF2F5;border-left-color:var(--nagi)}
+.sup .av{width:22px;height:22px;border-radius:5px;background:#EDEFF3;display:grid;place-items:center;font-size:12px;flex:none;overflow:hidden}
+.sup .m{flex:1;min-width:0}
+.sup .m b{display:block;font-size:12px;font-weight:700}
+.sup.on .m b{color:var(--nagi)}
+.sup .m span{font-size:10.5px;color:var(--mute)}
+.dot{width:17px;height:17px;border-radius:50%;background:#E2E5EA;flex:none;display:grid;place-items:center;font-size:10px;color:#fff;font-weight:700}
+.dot.n{background:var(--nagi)}.dot.ok{background:#16A34A}
+.main{flex:1;min-width:0;padding:22px 20px 110px;display:flex;flex-direction:column;align-items:center}
+.mhead{width:min(100%,540px);display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+.mhead .av{width:34px;height:34px;border-radius:8px;background:#EDEFF3;display:grid;place-items:center;font-size:17px;flex:none}
+.mhead h2{font-size:19px;font-weight:900}
+.mhead .s{font-size:11.5px;color:var(--mute);margin-top:4px}
+.mhead .r{margin-left:auto;text-align:right}
+.cnt{background:#F1F3F6;border-radius:7px;padding:2px 9px;font-size:11.5px;font-weight:700;color:var(--ink2)}
+.guest{width:min(100%,540px);display:flex;align-items:center;gap:10px;font-size:12px;color:var(--ink2);margin-bottom:14px}
+.guest b{font-size:17px;font-weight:900;color:var(--green)}
+.item{width:min(100%,540px);background:#fff;border:1px solid var(--line);border-radius:11px;margin-bottom:12px;overflow:hidden;box-shadow:var(--sh)}
+.item.act{border-color:#CBD5E1}
+.itop{display:flex;gap:13px;padding:14px}
+.ph{width:70px;height:56px;border-radius:7px;background:#EDEFF3;flex:none;display:grid;place-items:center;font-size:22px;overflow:hidden}
+.iname{font-size:15.5px;font-weight:900;letter-spacing:-.01em}
+.imeta{font-size:12px;color:var(--ink2);margin-top:5px}
+.imeta b{font-weight:900;color:var(--ink)}
+.next-d{font-size:11.5px;color:#8A6A2B;margin-top:5px}
+.ibody{padding:0 14px 12px}
+.ctl{display:flex;align-items:center;gap:9px;padding:6px 0 12px}
+.ctl .lb{font-size:12.5px;color:var(--ink2);flex:1}
+.stp{width:34px;height:34px;border-radius:8px;border:1px solid var(--line2);background:#fff;font-size:16px;color:var(--ink2);display:grid;place-items:center}
+.stp:active{background:#F1F3F6}
+.qty{width:63px;height:40px;border:2px solid var(--line2);border-radius:9px;text-align:center;font-size:19px;font-weight:900;color:var(--ink);background:#fff;font-family:var(--f)}
+.qty.set{border-color:var(--green)}
+.qty::-webkit-outer-spin-button,.qty::-webkit-inner-spin-button{-webkit-appearance:none}
+.unit{font-size:12px;color:var(--ink2);width:26px}
+.rail{position:relative;padding:2px 0 0}
+input[type=range]{width:100%;-webkit-appearance:none;background:transparent;height:22px}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--green) var(--p,0%),#E7EAEE var(--p,0%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:19px;height:19px;border-radius:50%;background:#fff;border:2px solid var(--green);margin-top:-6.5px;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.ticks{position:relative;height:4px}
+.ticks i{position:absolute;top:0;width:3px;height:3px;border-radius:50%;background:#C7CDD6;transform:translateX(-50%)}
+.scale{display:flex;justify-content:space-between;font-size:11px;color:var(--mute);margin-top:2px}
+.est{text-align:right;font-size:11px;color:var(--ink2);margin-top:6px}
+.est b{font-weight:900;color:var(--ink)}
+.tag{font-size:10.5px;font-weight:700;padding:1px 5px;border-radius:4px;margin-left:4px}
+.tag.ok{background:#E9F7EF;color:#0F7A46}.tag.warn{background:#FEF6E7;color:#9A6B12}.tag.bad{background:#FDEDED;color:#B3261E}
+.foot{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--pink-row);border-top:1px solid #F5E4E9}
+.foot .l{font-size:12.5px;color:var(--ink2)}
+.foot .v{font-size:23px;font-weight:900;color:var(--nagi)}
+.foot .v small{font-size:12px;margin-left:2px}
+.foot .x{font-size:11.5px;color:var(--ink2);margin-left:7px}
+.foot.zero{background:#fff;border-top:1px solid var(--line)}
+.foot.zero .v{color:var(--mute);font-size:13px;font-weight:700}
+.bottom{position:fixed;left:176px;right:0;bottom:0;background:rgba(250,250,250,.95);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 20px;display:flex;gap:12px;justify-content:center;z-index:20}
+.bottom .in{display:flex;gap:12px;width:min(100%,900px)}
+.btn{height:46px;border-radius:10px;font-size:14.5px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.btn.sec{width:64px;background:#22242A;color:#fff}
+.btn.pri{flex:1;background:#1B1E24;color:#fff}
+.btn.pri:disabled{background:#E7EAEE;color:#A8B0BB;cursor:not-allowed}
+/* confirm */
+.cwrap{max-width:1000px;margin:0 auto;padding:20px 20px 120px}
+.alert{background:#F2F9F5;border:1px solid #DAEEE4;border-radius:9px;padding:11px 14px;font-size:12px;font-weight:700;color:#1B5E20;margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center;box-shadow:var(--sh)}
+.kpi.blue{background:var(--blue-bg);border-color:#D8E3FB}
+.kpi .k{font-size:11.5px;color:var(--ink2);font-weight:700}
+.kpi .v{font-size:27px;font-weight:900;margin:4px 0 2px}
+.kpi.blue .v{color:var(--blue)}
+.kpi .u{font-size:11px;color:var(--mute)}
+.grp{background:#fff;border:1px solid var(--line);border-radius:11px;margin-bottom:16px;overflow:hidden;box-shadow:var(--sh)}
+.ghead{display:flex;align-items:center;gap:10px;padding:13px 15px}
+.ghead .av{width:26px;height:26px;border-radius:6px;background:#EDEFF3;display:grid;place-items:center;font-size:14px}
+.ghead b{font-size:14px;font-weight:900}
+.ghead .c{font-size:11px;color:var(--mute);margin-top:2px}
+.ghead .chg{margin-left:auto;font-size:11px;font-weight:700;color:var(--amber);background:#FEF6E7;border-radius:5px;padding:3px 8px}
+table{width:100%;border-collapse:collapse}
+th{font-size:11px;color:var(--mute);font-weight:700;text-align:left;padding:8px 10px;background:#FBFBFC;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+th.c,td.c{text-align:center}
+td{padding:8px 10px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}
+td.nm{display:flex;align-items:center;gap:10px;font-weight:700}
+td.nm .th{width:28px;height:28px;border-radius:5px;background:#EDEFF3;display:grid;place-items:center;font-size:14px;flex:none}
+.stock{font-weight:900}.stock small{font-weight:400;color:var(--mute);margin-left:2px}
+.ai{display:inline-block;min-width:34px;background:var(--blue-bg);color:var(--blue);border-radius:6px;padding:3px 8px;font-weight:900;font-size:13px}
+.qcell{display:flex;align-items:center;justify-content:center;gap:5px}
+.mini{width:26px;height:26px;border-radius:6px;border:1px solid var(--line2);background:#fff;color:var(--ink2);display:grid;place-items:center;font-size:14px}
+.fin{width:52px;height:30px;border:1px solid var(--line2);border-radius:7px;text-align:center;font-size:14px;font-weight:700;background:#fff;font-family:var(--f)}
+.fin.chg{border-color:#E8B84B;background:#FFFCF3;color:#8A6200}
+.gfoot{display:flex;justify-content:space-between;padding:10px 15px;font-size:11.5px;color:var(--mute)}
+.gfoot .r{font-weight:700;color:var(--amber)}
+.gfoot .r.same{color:var(--mute);font-weight:400}
+.cbar{position:fixed;left:0;right:0;bottom:0;background:rgba(250,250,250,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:14px 20px}
+.cbar .in{max-width:1000px;margin:0 auto}
+.saveln{display:flex;align-items:center;gap:10px;background:#F3F4F6;border-radius:9px;padding:11px 14px;font-size:12px;color:var(--ink2);margin-bottom:12px}
+.saveln .b{margin-left:auto;background:#fff;border:1px solid var(--line2);border-radius:7px;height:32px;padding:0 13px;font-size:11.5px;font-weight:700}
+.crow{display:flex;align-items:center;gap:14px}
+.crow .back2{border:1px solid var(--line2);background:#fff;border-radius:9px;height:44px;padding:0 22px;font-size:13.5px;font-weight:700;color:var(--ink2)}
+.crow .msg{flex:1;text-align:right;font-size:11.5px;color:var(--green);font-weight:700}
+.submit{background:#141519;color:#fff;border-radius:9px;height:46px;padding:0 22px;font-size:14px;font-weight:900;display:flex;align-items:center;gap:7px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:120px;background:#141519;color:#fff;border-radius:10px;padding:13px 20px;font-size:13.5px;font-weight:700;z-index:60;opacity:0;transition:.2s;pointer-events:none}
+.toast.on{opacity:1}
+.done-w{max-width:520px;margin:70px auto;text-align:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:40px 28px;box-shadow:var(--sh)}
+.done-w .ck{width:62px;height:62px;border-radius:50%;background:#E9F7EF;color:#0F7A46;font-size:30px;display:grid;place-items:center;margin:0 auto 18px}
+.done-w h2{font-size:21px;font-weight:900}
+.done-w p{color:var(--ink2);font-size:13px;margin-top:9px;line-height:1.8}
+.done-w .btn{margin-top:22px;background:#141519;color:#fff}
+
+@media (max-width:1180px){.rgt>span{display:none}}
+@media (max-width:920px){.logo .tx{display:none}.steps button{padding:0 8px}}
+@media (max-width:820px){.side{width:112px}.bottom{left:112px}.cards{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(3,1fr)}.wrap{padding:22px 14px 70px}}
+/* ===== スマホ ===== */
+@media (max-width:700px){
+  .top{height:auto;flex-wrap:wrap;padding:8px 10px;gap:8px;row-gap:8px}
+  .logo .tx{display:none}
+  .store{font-size:12.5px;height:30px;order:1;flex:1;min-width:0}
+  .store span.nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rgt{order:2;flex:none}
+  .steps{order:3;flex:1 0 100%;width:100%;justify-content:flex-start;gap:6px;padding-bottom:2px}
+  .steps button{height:26px;font-size:11.5px;padding:0 10px}
+  .wrap{padding:18px 14px 40px}
+  h1{font-size:21px}
+  .hero{height:190px;margin-top:18px}.hero .lb{font-size:20px}
+  .list .row{padding:14px;gap:8px}.list .row .nm{width:auto;min-width:52px}.list .row .ms{font-size:12px}
+  .cards{grid-template-columns:1fr;gap:12px;margin-top:18px}
+  /* 在庫入力: 仕入先は横スクロールのタブへ */
+  .split{flex-direction:column;min-height:auto}
+  .side{width:100%;border-right:0;border-bottom:1px solid var(--line);padding:8px 0 0;position:sticky;top:0;z-index:15;background:rgba(251,251,252,.97);backdrop-filter:blur(8px)}
+  .side .h{display:none}
+  .side .row{display:flex;gap:6px;overflow-x:auto;padding:0 10px 8px;scrollbar-width:none}
+  .side .row::-webkit-scrollbar{display:none}
+  .sup{width:auto;flex:none;border-left:0;border-radius:9px;background:#F1F3F6;padding:7px 10px;gap:7px}
+  .sup.on{background:#FDF2F5;box-shadow:inset 0 0 0 1.5px var(--nagi)}
+  .sup .m span{display:none}
+  .sup .av{width:19px;height:19px;font-size:11px}
+  .main{padding:14px 12px 130px}
+  .mhead,.guest,.item{width:100%}
+  .mhead h2{font-size:17px}
+  .itop{padding:12px}.ph{width:58px;height:48px;font-size:19px}
+  .iname{font-size:15px}
+  .qty{width:70px;height:46px;font-size:20px}
+  .stp{width:44px;height:44px;font-size:19px}
+  .ctl{gap:8px;padding:4px 0 10px}
+  input[type=range]{height:34px}
+  input[type=range]::-webkit-slider-thumb{width:26px;height:26px;margin-top:-10px}
+  .foot{padding:11px 12px}.foot .v{font-size:21px}
+  .bottom{left:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+  .btn{height:50px}
+  /* 確認: 表をカードに */
+  .cwrap{padding:14px 12px 210px}
+  .kpis{gap:8px}.kpi{padding:11px 6px}.kpi .v{font-size:22px}.kpi .k{font-size:10.5px}
+  table,thead,tbody,tr,td{display:block}
+  thead{display:none}
+  tr{padding:11px 12px;border-bottom:1px solid var(--line)}
+  td{border:0;padding:0;display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--ink2)}
+  td.nm{display:flex;justify-content:flex-start;font-size:14px;color:var(--ink);margin-bottom:8px;line-height:1.5}
+  td.c{justify-content:space-between}
+  td[data-l]::before{content:attr(data-l);color:var(--mute);font-size:11.5px;font-weight:700}
+  .qcell{gap:8px}.mini{width:36px;height:36px;font-size:16px}.fin{width:60px;height:36px;font-size:15px}
+  .cbar{padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+  .saveln{flex-wrap:wrap;font-size:11.5px;padding:10px 12px;gap:8px}
+  .saveln .b{margin-left:0;width:100%}
+  .crow{flex-wrap:wrap;gap:8px}
+  .crow .back2{height:46px;padding:0 16px;font-size:13px}
+  .crow .msg{order:3;width:100%;text-align:center;font-size:11px}
+  .submit{flex:1;height:50px;justify-content:center}
+  .done-w{margin:36px 12px;padding:30px 20px}
+}
+
+/* ---- 操作を軽くするための追加 ---- */
+.prog{width:min(100%,540px);margin:0 0 12px}
+.prog .bar{height:5px;border-radius:3px;background:#E7EAEE;overflow:hidden}
+.prog .bar i{display:block;height:100%;background:var(--green);border-radius:3px;transition:width .25s ease}
+.prog .tx{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mute);margin-top:6px}
+.prog .tx b{color:var(--ink);font-weight:700}
+.presets{display:flex;gap:6px;margin:2px 0 10px;flex-wrap:wrap}
+.presets button{flex:1;min-width:44px;height:38px;border-radius:9px;border:1px solid var(--line2);background:#fff;font-size:14px;font-weight:900;color:var(--ink2)}
+.presets button.on{background:var(--green);border-color:var(--green);color:#fff}
+.presets button.zero{color:var(--mute)}
+.item.done{opacity:.8}
+.item.done .ibody{display:none}
+.item.done .itop{padding:10px 12px;align-items:center}
+.item.done .ph{width:40px;height:34px;font-size:15px}
+.item.done .iname{font-size:13.5px}
+.dsum{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink2);white-space:nowrap}
+.dsum b{font-size:15px;font-weight:900;color:var(--nagi)}
+.dsum .re{border:1px solid var(--line2);border-radius:7px;height:28px;padding:0 10px;font-size:11.5px;font-weight:700;color:var(--ink2);background:#fff}
+.jump{position:fixed;right:14px;bottom:86px;z-index:19;background:#141519;color:#fff;border-radius:22px;height:44px;padding:0 16px;font-size:13px;font-weight:700;box-shadow:0 8px 20px -8px rgba(0,0,0,.5);display:flex;align-items:center;gap:7px}
+.hint{width:min(100%,540px);background:#F2F9F5;border:1px solid #DAEEE4;border-radius:9px;padding:10px 13px;font-size:12px;color:#1B5E20;margin-bottom:12px}
+.hint b{font-weight:700}
+.skipall{background:#fff;border:1px solid var(--line2);border-radius:9px;height:34px;padding:0 12px;font-size:12px;font-weight:700;color:var(--ink2)}
+
+.veil{position:fixed;inset:0;background:rgba(20,30,60,.3);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:520px;background:#fff;border-radius:18px 18px 0 0;max-height:80dvh;overflow:auto;box-shadow:0 -8px 30px rgba(0,0,0,.2)}
+.grab{width:36px;height:4px;background:#E2E5EA;border-radius:2px;margin:10px auto 0}
+.sh-body{padding:14px 18px calc(20px + env(safe-area-inset-bottom))}
+.sh-ttl{font-size:17px;font-weight:900;margin-bottom:12px}
+.stlist{display:flex;flex-direction:column;gap:8px}
+.strow{border:1px solid var(--line2);background:#fff;border-radius:10px;height:50px;padding:0 14px;font-size:14.5px;font-weight:700;text-align:left;color:var(--ink)}
+.strow.on{border-color:var(--nagi);background:#FDF2F5;color:var(--nagi)}
+</style>
+
+<div class="app" id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toast=m=>{const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('on'),2200)};
+
+/* ============ データ（動画の画面を再現。実データではなく見本値） ============ */
+const STORES=[
+ {id:'egota',ja:'江古田なぎちゃん',en:'Egota Nagi-chan'},
+ {id:'omori_new',ja:'大森なぎちゃん',en:'Omori Nagi-chan'},
+ {id:'shinjuku_new',ja:'新宿ナギチャン',en:'Shinjuku Nagi-chan'},
+ {id:'sinjuku_ecchann',ja:'新宿えっちゃん',en:'Shinjuku Ecchan'},
+ {id:'kawasakinishi_new',ja:'川崎西口なぎちゃん',en:'Kawasaki-nishiguchi Nagi-chan'},
+];
+const qp=new URLSearchParams(location.search);
+const STORE_OBJ=STORES.find(x=>x.id===(qp.get('store')||localStorage.getItem('nagi_store')))||STORES[0];
+if(qp.get('store'))localStorage.setItem('nagi_store',STORE_OBJ.id);
+const storeName=()=>S.lang==='JA'?STORE_OBJ.ja:STORE_OBJ.en;
+const SUPPLIERS=[
+ {id:'kaniwa',name:'かにわ',en:'Kaniwa',em:'🥬',cut:'16:30'},
+ {id:'saude',name:'Saude',en:'Saude',em:'📦',cut:'16:30'},
+ {id:'shimizu',name:'清水屋',en:'Shimizuya',em:'🧂',cut:'16:30'},
+ {id:'enomoto',name:'榎本',en:'Enomoto',em:'🍺',cut:'16:30'},
+ {id:'eguchi',name:'江口海苔',en:'Eguchi Nori',em:'🍙',cut:'14:30'},
+];
+/* per: 1単位あたりの提供数（食分/杯分/本分/人分）。無い品はコマ数だけ */
+const ITEMS=[
+ {s:'kaniwa',n:'あきたこまち（無洗米）',u:'袋',par:19,em:'🍚',per:38,pl:'食分'},
+ {s:'kaniwa',n:'キャベツ（トッピング野菜）',u:'個',par:3,em:'🥬',hrs:24},
+ {s:'kaniwa',n:'もやし（トッピング野菜）',u:'kg',par:8,em:'🌱',hrs:8},
+ {s:'kaniwa',n:'長ネギ中国　箱',u:'箱',par:4,em:'🧅',hrs:12},
+ {s:'kaniwa',n:'ムキニンニク3L真空',u:'pc',par:4,em:'🧄',hrs:10},
+ {s:'kaniwa',n:'輸入むき玉ねぎ真空（1ｋg）',u:'pc',par:6,em:'🧅',hrs:10},
+ {s:'kaniwa',n:'玉子　Lバラ',u:'c/s',par:2,em:'🥚',hrs:36},
+ {s:'kaniwa',n:'皮付きニンニク',u:'p c',par:2,em:'🧄',hrs:24},
+ {s:'saude',n:'カナダ産冷蔵大麦三元豚ピクニック',u:'kg',par:52,em:'🥩',per:12,pl:'食分'},
+ {s:'saude',n:'信長（NOBUNAGA',u:'袋',par:11,em:'🍜',per:30,pl:'食分'},
+ {s:'saude',n:'神田の愛人',u:'箱',par:7,em:'🍜',per:60,pl:'食分'},
+ {s:'saude',n:'生メンマ２k',u:'袋',par:2,em:'🎋',per:250,pl:'人分'},
+ {s:'saude',n:'冷凍豚ゲンコツハーフカット 輸入バラ',u:'kg',par:10,em:'🥓',hrs:20},
+ {s:'saude',n:'チリソース',u:'袋',par:3,em:'🌶️',hrs:30},
+ {s:'saude',n:'辛味中華',u:'pc',par:1,em:'🌶️',hrs:40},
+ {s:'shimizu',n:'ＧＳ紅しょうが　千切り　1kg',u:'袋',par:6,em:'🫚',hrs:30},
+ {s:'shimizu',n:'キューピー サラダ油 ベストブレンド',u:'本',par:4,em:'🛢️',hrs:40},
+ {s:'shimizu',n:'ミツカン　穀物酢　1.8L',u:'本',par:2,em:'🍶',per:600,pl:'杯分'},
+ {s:'shimizu',n:'アデカ　クラウンラード　　15ｋgD1',u:'缶',par:3,em:'🥫',hrs:30},
+ {s:'shimizu',n:'九鬼　星印いりごま　白',u:'袋',par:3,em:'🌰',hrs:24},
+ {s:'shimizu',n:'銚子屋　特選青がっぱ',u:'袋',par:10,em:'🥒',hrs:12},
+ {s:'shimizu',n:'東丸　うすくち醤油　1.8Ｌ',u:'本',par:2,em:'🍶',hrs:48},
+ {s:'shimizu',n:'味の素　マヨネーズライト',u:'本',par:6,em:'🥄',hrs:26},
+ {s:'shimizu',n:'さわかぜ　わかめ　500g',u:'袋',par:2,em:'🌿',hrs:36},
+ {s:'shimizu',n:'業務用こしょう　白',u:'本',par:2,em:'🧂',hrs:60},
+ {s:'shimizu',n:'ラー油　1.6kg',u:'本',par:2,em:'🌶️',hrs:50},
+ {s:'shimizu',n:'味塩こしょう',u:'本',par:2,em:'🧂',hrs:60},
+ {s:'shimizu',n:'花椒　パウダー',u:'袋',par:1,em:'🌿',hrs:70},
+ {s:'shimizu',n:'白ごま油　1.6kg',u:'本',par:2,em:'🛢️',hrs:50},
+ {s:'enomoto',n:'サッポロ ラガー 中瓶',u:'本',par:42,em:'🍺',per:9.5,pl:'本分'},
+ {s:'eguchi',n:'焼海苔１／４　10ｐc',u:'c/s',par:1,em:'🍙',hrs:70},
+];
+const GUESTS=300;
+
+
+/* ---------- 表示言語（実物と同じ4言語） ---------- */
+const LANGS=[['JA','🇯🇵'],['EN','🇺🇸'],['VI','🇻🇳'],['MY','🇲🇲']];
+const T={
+ JA:{steps:['① 通知','② 選択','③ 在庫入力','④ 確認'],dt:'火曜日・2026年9月8日 08:13',
+  h1:'発注の時間です',hsub:'火曜日・2026年9月8日 08:12・在庫を入力 → 発注数を自動計算 → 送信',start:'発注を開始',yst:'昨日の評価',
+  todayStatus:'本日のステータス',food:'食材',cons:'消耗品',notyet:'まだ発注されていません',ordered:'発注済み',sent:'送信済み',notstart:'未開始',none:'対象なし',
+  q1:'今日はどちらを発注しますか？',q1s:'発注タイプを選んでください。タイプによって発注タイミングが異なります。',
+  foodDesc:'野菜・肉・調味料など<br>食材の発注',consDesc:'箸・エプロンなど<br>消耗品の発注',auto:'14:30 自動発注',noItems:'この種別の品目はありません',
+  timing:'📋 発注タイミングの違い',timing1:'<b>消耗品</b>：確定ボタンを押した瞬間に発注。修正は確定前のみ可能。',timing2:'<b>食材</b>：14:30に自動発注。それまでは何度でも編集できます。14:30以降は即時発注になります。',
+  back:'← 戻る',supList:'本日の発注先',items:'品目',enterStock:'在庫数を入力してください',guests:'本日予想来客数:',change:'変更',fillRest:'残りを一括入力',
+  entered:'品目 入力済み',remainN:n=>`あと ${n} 品目`,supDone:'✓ この仕入先は完了',hint:'💡 <b>数字を押すだけ</b>で在庫が入ります。使い切った品は <b>0</b>、残っている品は近い数字を押してください。',
+  par:'定数',nextD:'次の納品',stock:'在庫',order:'発注',noOrder:'発注なし',fix:'直す',left:'残り',ok:'OK',warn:'注意',crit:'逼迫',
+  nextSup:'次の仕入先へ →',toConfirm:'確認へ進む →',backBtn:'戻る',
+  c1:'発注内容の確認',c1s:'数量を確認し、責任者として承認してください。',deadline:'🚨 早い締切: 16:30 — 承認すると各仕入先の締切時刻に自動発注されます',
+  kOrder:'発注品目',kSup:'仕入先',kMan:'手動変更',uItem:'品目',uSup:'社',cut:'締切',
+  thItem:'品目',thStock:'在庫',thAi:'AI提案',thFinal:'最終数量',thUnit:'単位',
+  nOrdered:n=>`${n} 品目発注`,nChanged:n=>`${n} 手動変更`,asSug:'提案どおり',changed:'変更',
+  saveHint:'⏱ 今すぐ承認しない場合は、入力内容を保存して16:30に自動発注できます。',saveBtn:'保存して16:30に自動発注',editable:'16:30まで何度でも編集できます。',submit:'📦 発注申請',
+  doneT:'発注申請を送信しました',doneS:(a,b)=>`${a} 品目・${b} 社ぶんを承認しました。<br>各仕入先の締切時刻（16:30 / 14:30）に自動で発注されます。<br>16:30 までは何度でも編集できます。`,home:'ホームへ戻る',
+  pickStore:'店舗を選ぶ',tSaved:'保存しました。16:30に自動発注されます（再現版）',tGuest:'来客数を変えると発注数の目安が変わります（再現版）',tYst:'昨日の発注の評価を表示します（再現版）',
+  tFill:n=>`残り ${n} 品目を「在庫 0」で入力しました。個別に直せます`,tAll:'すべて入力済みです',tNeed:'すべての仕入先の在庫を入力してください'},
+ EN:{steps:['① Notice','② Type','③ Stock','④ Confirm'],dt:'Tue, Sep 8, 2026 08:13',
+  h1:'Time to order',hsub:'Tue, Sep 8, 2026 08:12 · Enter stock → auto-calculate → send',start:'Start ordering',yst:"Yesterday's review",
+  todayStatus:"Today's status",food:'Food',cons:'Supplies',notyet:'Not ordered yet',ordered:'Ordered',sent:'Sent',notstart:'Not started',none:'None',
+  q1:'What will you order today?',q1s:'Choose an order type. Timing differs by type.',
+  foodDesc:'Vegetables, meat, seasoning<br>food order',consDesc:'Chopsticks, aprons<br>supplies order',auto:'Auto-order at 14:30',noItems:'No items in this type',
+  timing:'📋 Difference in timing',timing1:'<b>Supplies</b>: ordered the moment you confirm. Editable only before confirming.',timing2:'<b>Food</b>: auto-ordered at 14:30. Editable any number of times until then. After 14:30 it is sent immediately.',
+  back:'← Back',supList:"Today's suppliers",items:'items',enterStock:'Enter stock counts',guests:'Expected guests today:',change:'Change',fillRest:'Fill the rest',
+  entered:'items entered',remainN:n=>`${n} to go`,supDone:'✓ Supplier complete',hint:'💡 <b>Just tap a number</b> to set stock. Tap <b>0</b> if it is used up, or the closest number if some is left.',
+  par:'Par',nextD:'Next delivery',stock:'Stock',order:'Order',noOrder:'No order',fix:'Edit',left:'left',ok:'OK',warn:'Low',crit:'Critical',
+  nextSup:'Next supplier →',toConfirm:'Go to confirm →',backBtn:'Back',
+  c1:'Confirm your order',c1s:'Check the quantities and approve as the person in charge.',deadline:'🚨 Earliest cut-off: 16:30 — once approved, orders are sent at each supplier cut-off',
+  kOrder:'Items',kSup:'Suppliers',kMan:'Edited',uItem:'items',uSup:'suppliers',cut:'Cut-off',
+  thItem:'Item',thStock:'Stock',thAi:'AI',thFinal:'Final',thUnit:'Unit',
+  nOrdered:n=>`${n} items ordered`,nChanged:n=>`${n} edited`,asSug:'As suggested',changed:'edited',
+  saveHint:'⏱ If you do not approve now, your input can be saved and auto-ordered at 16:30.',saveBtn:'Save & auto-order at 16:30',editable:'Editable any time until 16:30.',submit:'📦 Submit order',
+  doneT:'Order submitted',doneS:(a,b)=>`Approved ${a} items from ${b} suppliers.<br>They will be sent at each supplier cut-off (16:30 / 14:30).<br>Editable until 16:30.`,home:'Back to home',
+  pickStore:'Choose store',tSaved:'Saved. It will be auto-ordered at 16:30 (demo)',tGuest:'Changing guests changes the suggested amounts (demo)',tYst:"Shows yesterday's review (demo)",
+  tFill:n=>`Set ${n} remaining items to stock 0. You can still edit each one`,tAll:'All items are entered',tNeed:'Please enter stock for every supplier'},
+ VI:{steps:['① Thông báo','② Loại','③ Tồn kho','④ Xác nhận'],dt:'Thứ Ba, 08/09/2026 08:13',
+  h1:'Đã đến giờ đặt hàng',hsub:'Thứ Ba, 08/09/2026 08:12 · Nhập tồn kho → tự động tính → gửi',start:'Bắt đầu đặt hàng',yst:'Đánh giá hôm qua',
+  todayStatus:'Trạng thái hôm nay',food:'Thực phẩm',cons:'Vật tư',notyet:'Chưa đặt hàng',ordered:'Đã đặt',sent:'Đã gửi',notstart:'Chưa bắt đầu',none:'Không có',
+  q1:'Hôm nay bạn đặt loại nào?',q1s:'Chọn loại đặt hàng. Thời điểm gửi khác nhau theo loại.',
+  foodDesc:'Rau, thịt, gia vị<br>đặt thực phẩm',consDesc:'Đũa, tạp dề<br>đặt vật tư',auto:'Tự động đặt 14:30',noItems:'Loại này không có mặt hàng',
+  timing:'📋 Khác biệt về thời điểm',timing1:'<b>Vật tư</b>: gửi ngay khi bạn xác nhận. Chỉ sửa được trước khi xác nhận.',timing2:'<b>Thực phẩm</b>: tự động gửi lúc 14:30. Trước đó sửa bao nhiêu lần cũng được. Sau 14:30 sẽ gửi ngay.',
+  back:'← Quay lại',supList:'Nhà cung cấp hôm nay',items:'mặt hàng',enterStock:'Nhập số tồn kho',guests:'Khách dự kiến hôm nay:',change:'Đổi',fillRest:'Nhập phần còn lại',
+  entered:'mặt hàng đã nhập',remainN:n=>`còn ${n} mặt hàng`,supDone:'✓ Đã xong nhà cung cấp này',hint:'💡 <b>Chỉ cần chạm vào số</b> để nhập tồn kho. Hết thì chạm <b>0</b>, còn thì chạm số gần nhất.',
+  par:'Định mức',nextD:'Giao hàng tới',stock:'Tồn kho',order:'Đặt',noOrder:'Không đặt',fix:'Sửa',left:'còn',ok:'OK',warn:'Ít',crit:'Gấp',
+  nextSup:'Nhà cung cấp tiếp →',toConfirm:'Đến bước xác nhận →',backBtn:'Quay lại',
+  c1:'Xác nhận đơn hàng',c1s:'Kiểm tra số lượng và phê duyệt với tư cách người phụ trách.',deadline:'🚨 Hạn sớm nhất: 16:30 — sau khi duyệt, đơn sẽ gửi theo hạn của từng nhà cung cấp',
+  kOrder:'Mặt hàng',kSup:'Nhà cung cấp',kMan:'Đã sửa',uItem:'mặt hàng',uSup:'nhà',cut:'Hạn',
+  thItem:'Mặt hàng',thStock:'Tồn',thAi:'AI',thFinal:'Cuối',thUnit:'ĐV',
+  nOrdered:n=>`Đặt ${n} mặt hàng`,nChanged:n=>`${n} đã sửa`,asSug:'Theo đề xuất',changed:'sửa',
+  saveHint:'⏱ Nếu chưa duyệt ngay, có thể lưu và tự động gửi lúc 16:30.',saveBtn:'Lưu & tự động gửi 16:30',editable:'Sửa được đến 16:30.',submit:'📦 Gửi đơn hàng',
+  doneT:'Đã gửi đơn hàng',doneS:(a,b)=>`Đã duyệt ${a} mặt hàng của ${b} nhà cung cấp.<br>Đơn sẽ gửi theo hạn từng nhà (16:30 / 14:30).<br>Sửa được đến 16:30.`,home:'Về trang chính',
+  pickStore:'Chọn cửa hàng',tSaved:'Đã lưu. Sẽ tự động gửi lúc 16:30 (bản demo)',tGuest:'Đổi số khách sẽ đổi lượng đề xuất (bản demo)',tYst:'Hiển thị đánh giá hôm qua (bản demo)',
+  tFill:n=>`Đã đặt ${n} mặt hàng còn lại về tồn 0. Vẫn sửa được từng mặt`,tAll:'Đã nhập hết',tNeed:'Vui lòng nhập tồn kho cho tất cả nhà cung cấp'},
+ MY:{steps:['① အသိပေးချက်','② အမျိုးအစား','③ လက်ကျန်','④ အတည်ပြု'],dt:'အင်္ဂါ၊ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:13',
+  h1:'မှာယူရန် အချိန်ရောက်ပါပြီ',hsub:'အင်္ဂါ ၂၀၂၆ စက်တင်ဘာ ၈၊ 08:12 · လက်ကျန်ထည့် → အလိုအလျောက်တွက် → ပို့',start:'မှာယူမှု စတင်ရန်',yst:'မနေ့ အဆင့်သတ်မှတ်ချက်',
+  todayStatus:'ယနေ့ အခြေအနေ',food:'စားသောက်ကုန်',cons:'အသုံးအဆောင်',notyet:'မမှာယူရသေးပါ',ordered:'မှာယူပြီး',sent:'ပို့ပြီး',notstart:'မစတင်သေး',none:'မရှိပါ',
+  q1:'ယနေ့ ဘယ်အမျိုးအစား မှာမလဲ',q1s:'မှာယူမည့် အမျိုးအစား ရွေးပါ။ အမျိုးအစားအလိုက် ပို့သည့်အချိန် မတူပါ။',
+  foodDesc:'အသီးအရွက်၊ အသား၊ အနှစ်<br>စားသောက်ကုန် မှာယူမှု',consDesc:'တူ၊ ရင်စည်း<br>အသုံးအဆောင် မှာယူမှု',auto:'14:30 အလိုအလျောက်',noItems:'ဒီအမျိုးအစားတွင် ပစ္စည်းမရှိပါ',
+  timing:'📋 အချိန် ကွာခြားချက်',timing1:'<b>အသုံးအဆောင်</b>：အတည်ပြုသည့် အချိန်တွင် ချက်ချင်း ပို့သည်။ အတည်မပြုမီသာ ပြင်နိုင်သည်။',timing2:'<b>စားသောက်ကုန်</b>：14:30 တွင် အလိုအလျောက် ပို့သည်။ ထိုအချိန်အထိ အကြိမ်ကြိမ် ပြင်နိုင်သည်။ 14:30 နောက်ပိုင်း ချက်ချင်း ပို့မည်။',
+  back:'← ပြန်ရန်',supList:'ယနေ့ ပေးသွင်းသူများ',items:'ပစ္စည်း',enterStock:'လက်ကျန် အရေအတွက် ထည့်ပါ',guests:'ယနေ့ ခန့်မှန်း ဧည့်သည်:',change:'ပြောင်း',fillRest:'ကျန်တာ အားလုံး ထည့်ရန်',
+  entered:'ပစ္စည်း ထည့်ပြီး',remainN:n=>`ကျန် ${n} ပစ္စည်း`,supDone:'✓ ဒီပေးသွင်းသူ ပြီးပါပြီ',hint:'💡 <b>ဂဏန်းကို ထိလိုက်ရုံ</b>နှင့် လက်ကျန် ဝင်ပါမည်။ ကုန်ပြီးဆိုရင် <b>0</b>၊ ကျန်ရင် အနီးစပ်ဆုံး ဂဏန်းကို ထိပါ။',
+  par:'သတ်မှတ်ချက်',nextD:'နောက်ပို့ဆောင်မှု',stock:'လက်ကျန်',order:'မှာယူ',noOrder:'မမှာပါ',fix:'ပြင်',left:'ကျန်',ok:'OK',warn:'သတိ',crit:'အရေးတကြီး',
+  nextSup:'နောက်ပေးသွင်းသူ →',toConfirm:'အတည်ပြုရန် →',backBtn:'ပြန်ရန်',
+  c1:'မှာယူမှု အတည်ပြုခြင်း',c1s:'အရေအတွက်ကို စစ်ပြီး တာဝန်ခံအနေနှင့် အတည်ပြုပါ။',deadline:'🚨 အစောဆုံး သတ်မှတ်ချိန်: 16:30 — အတည်ပြုပါက ပေးသွင်းသူတိုင်း၏ သတ်မှတ်ချိန်တွင် အလိုအလျောက် ပို့မည်',
+  kOrder:'ပစ္စည်း',kSup:'ပေးသွင်းသူ',kMan:'ပြင်ဆင်',uItem:'ပစ္စည်း',uSup:'ဆိုင်',cut:'သတ်မှတ်ချိန်',
+  thItem:'ပစ္စည်း',thStock:'လက်ကျန်',thAi:'AI',thFinal:'နောက်ဆုံး',thUnit:'ယူနစ်',
+  nOrdered:n=>`${n} ပစ္စည်း မှာယူ`,nChanged:n=>`${n} ပြင်ဆင်`,asSug:'အဆိုပြုအတိုင်း',changed:'ပြင်',
+  saveHint:'⏱ ယခု အတည်မပြုပါက ထည့်ထားသည်ကို သိမ်းပြီး 16:30 တွင် အလိုအလျောက် ပို့နိုင်သည်။',saveBtn:'သိမ်း၍ 16:30 ပို့ရန်',editable:'16:30 အထိ အကြိမ်ကြိမ် ပြင်နိုင်သည်။',submit:'📦 မှာယူမှု တင်ပြရန်',
+  doneT:'မှာယူမှု တင်ပြပြီးပါပြီ',doneS:(a,b)=>`ပေးသွင်းသူ ${b} ဆိုင်မှ ပစ္စည်း ${a} မျိုးကို အတည်ပြုပြီးပါပြီ။<br>ပေးသွင်းသူတိုင်း၏ သတ်မှတ်ချိန် (16:30 / 14:30) တွင် အလိုအလျောက် ပို့မည်။<br>16:30 အထိ ပြင်နိုင်သည်။`,home:'ပင်မစာမျက်နှာ',
+  pickStore:'ဆိုင် ရွေးရန်',tSaved:'သိမ်းပြီးပါပြီ။ 16:30 တွင် အလိုအလျောက် ပို့မည် (နမူနာ)',tGuest:'ဧည့်သည်အရေအတွက် ပြောင်းလျှင် အဆိုပြုပမာဏ ပြောင်းမည် (နမူနာ)',tYst:'မနေ့ အဆင့်သတ်မှတ်ချက် ပြမည် (နမူနာ)',
+  tFill:n=>`ကျန် ${n} ပစ္စည်းကို လက်ကျန် 0 ဖြင့် ထည့်ပြီးပါပြီ။ တစ်ခုချင်း ပြင်နိုင်သည်`,tAll:'အားလုံး ထည့်ပြီးပါပြီ',tNeed:'ပေးသွင်းသူအားလုံး၏ လက်ကျန်ကို ထည့်ပါ'},
+};
+const t=(k,...a)=>{const v=(T[S.lang]&&T[S.lang][k])??T.JA[k];return typeof v==='function'?v(...a):v};
+function setLang(c){S.lang=T[c]?c:'JA';localStorage.setItem('nagi_lang',S.lang);document.documentElement.lang=S.lang.toLowerCase();S.sheet=null;render()}
+
+/* ============ 状態 ============ */
+let S={step:'home',type:null,sup:0,stock:{},final:{},collapse:{},lang:(localStorage.getItem('nagi_lang')||'JA'),sheet:null,submitted:false};
+const supName=x=>S.lang==='JA'?x.name:(x.en||x.name);
+const itName=it=>S.lang==='JA'?it.n:(it.en||it.n);
+const key=(i)=>`i${i}`;
+const idxOf=(sid)=>ITEMS.map((x,i)=>({x,i})).filter(o=>o.x.s===sid).map(o=>o.i);
+const stockOf=i=>S.stock[key(i)];
+const entered=i=>stockOf(i)!==undefined&&stockOf(i)!==null;
+/* 発注数 = 定数 − 在庫（切り上げ・0未満なし） */
+const suggest=i=>{const it=ITEMS[i];const s=stockOf(i);return entered(i)?Math.max(0,it.par-s):null};
+const finalOf=i=>S.final[key(i)]!==undefined?S.final[key(i)]:suggest(i);
+/* 残り時間の目安（在庫 ÷ 定数 × 想定持ち時間） */
+function remain(i){const it=ITEMS[i];const s=stockOf(i);if(!entered(i))return null;
+ const base=it.per?(it.par*it.per)/(GUESTS/24):(it.hrs||24);
+ const h=it.par?(s/it.par)*base*(it.per?1:it.par/Math.max(1,it.par)):0;
+ const hours=it.per?(s*it.per)/(GUESTS/24):(s/Math.max(1,it.par))*(it.hrs||24);
+ return {hours:Math.round(hours*10)/10, portions: it.per?Math.round(s*it.per):null};}
+const level=h=>h==null?'':h>=24?'ok':h>=12?'warn':'bad';
+const levelLabel=h=>h>=24?'OK':h>=12?'注意':'逼迫';
+const doneSup=sid=>idxOf(sid).every(entered);
+const touchedSup=sid=>idxOf(sid).filter(entered).length;
+const allDone=()=>SUPPLIERS.every(s=>doneSup(s.id));
+const orderCount=()=>ITEMS.map((x,i)=>i).filter(i=>(finalOf(i)||0)>0).length;
+const changedCount=()=>ITEMS.map((x,i)=>i).filter(i=>S.final[key(i)]!==undefined&&S.final[key(i)]!==suggest(i)).length;
+const supWithOrder=()=>SUPPLIERS.filter(s=>idxOf(s.id).some(i=>(finalOf(i)||0)>0)).length;
+
+/* ============ 部品 ============ */
+function header(){
+ const steps=[['home',t('steps')[0]],['type',t('steps')[1]],['input',t('steps')[2]],['confirm',t('steps')[3]]];
+ const order=['home','type','input','confirm'];const cur=order.indexOf(S.step==='done'?'confirm':S.step);
+ return `<div class="top"><div class="logo"><div class="mk">凪</div><div class="tx"><b>NAGI</b><span>ORDER SYSTEM</span></div></div>
+ <button class="store" onclick="S.sheet='store';render()">⌂ <span class="nm">${esc(storeName())}</span> <span class="ic">▾</span></button>
+ <div class="steps">${steps.map(([k,l],n)=>`<button class="${k===S.step||(S.step==='done'&&k==='confirm')?'on':n<cur?'done':''}" onclick="goStep('${k}')">${n<cur?'✓ ':''}${l}</button>`).join('')}</div>
+ <div class="rgt"><span>${esc(t('dt'))}</span>
+ <div class="langs">${LANGS.map(([c,f])=>`<button aria-pressed="${S.lang===c}" onclick="setLang('${c}')">${f} ${c}</button>`).join('')}</div></div></div>`;
+}
+function home(){
+ const st=S.submitted?[t('ordered'),t('sent')]:[t('notyet'),t('notstart')];
+ return `<div class="wrap"><div class="hd"><div><h1>${esc(t('h1'))}</h1><div class="sub">${esc(t('hsub'))}</div></div><button class="ghost" onclick="toast(t('tYst'))">${esc(t('yst'))}</button></div>
+ <button class="hero" onclick="goStep('type')"><div class="pl">＋</div><div class="lb">${esc(t('start'))}</div></button>
+ <div class="lab">${esc(t('todayStatus'))}</div>
+ <div class="list"><div class="row"><div class="ic">🥬</div><div class="nm">${esc(t('food'))}</div><div class="ms">${esc(st[0])}</div><div class="st">${esc(st[1])}</div></div>
+ <div class="row"><div class="ic">✦</div><div class="nm">${esc(t('cons'))}</div><div class="ms">${esc(t('notyet'))}</div><div class="st">${esc(t('none'))}</div></div></div></div>`;
+}
+function typeSel(){
+ return `<div class="wrap" style="max-width:1000px"><div style="text-align:center"><h1>${esc(t('q1'))}</h1><div class="sub">${esc(t('q1s'))}</div></div>
+ <div class="cards"><button class="tcard on" onclick="S.type='food';goStep('input')"><div class="em">🥬</div><h3>${esc(t('food'))}</h3><p>${t('foodDesc')}</p><div class="pillg">⏰ ${esc(t('auto'))}</div></button>
+ <div class="tcard off"><div class="em">✦</div><h3 style="color:var(--mute)">${esc(t('cons'))}</h3><p>${t('consDesc')}</p><div class="pillx">${esc(t('noItems'))}</div></div></div>
+ <div class="note"><b>${t('timing')}</b><br>${t('timing1')}<br>${t('timing2')}</div>
+ <button class="back" onclick="goStep('home')">${esc(t('back'))}</button></div>`;
+}
+function presetVals(par){const a=[0];const step=Math.max(1,Math.round(par/4));for(let v=step;v<par;v+=step)a.push(v);a.push(par);return [...new Set(a)].slice(0,6)}
+function itemCard(i){
+ const it=ITEMS[i];const s=stockOf(i);const on=entered(i);const sug=suggest(i);const r=remain(i);
+ if(on&&S.collapse[key(i)]!==false){return `<div class="item done"><div class="itop"><div class="ph">${it.em}</div><div style="min-width:0"><div class="iname">${esc(it.n)}</div><div style="font-size:11.5px;color:var(--mute);margin-top:3px">${esc(t('stock'))} ${s} ${esc(it.u)}</div></div>
+   <div class="dsum">${sug>0?`${esc(t('order'))} <b>${sug}</b>${esc(it.u)}`:`<span style="color:var(--mute)">${esc(t('noOrder'))}</span>`}<button class="re" onclick="reopen(${i})">${esc(t('fix'))}</button></div></div></div>`}
+ const pct=on?Math.min(100,Math.round(s/it.par*100)):0;
+ const lv=r?level(r.hours):'';
+ const ticks=Array.from({length:Math.max(0,Math.min(11,it.par-1))},(_,k)=>`<i style="left:${(k+1)/it.par*100}%"></i>`).join('');
+ return `<div class="item ${on?'act':''}"><div class="itop"><div class="ph">${it.em}</div><div><div class="iname">${esc(itName(it))}</div>
+  <div class="imeta">${esc(t('par'))}: <b>${it.par}</b> ${esc(it.u)}</div><div class="next-d">📦 ${esc(t('nextD'))}: 9/8</div></div></div>
+ <div class="ibody"><div class="ctl"><div class="lb">${esc(t('stock'))}</div>
+  <button class="stp" onclick="bump(${i},-1)">−</button>
+  <input class="qty ${on?'set':''}" id="q${i}" inputmode="numeric" value="${on?s:'—'}" onfocus="if(this.value==='—')this.value=''" onchange="setStock(${i},this.value)">
+  <button class="stp" onclick="bump(${i},1)">＋</button><div class="unit">${esc(it.u)}</div></div>
+ <div class="presets">${presetVals(it.par).map(v=>`<button class="${on&&s===v?'on':''} ${v===0?'zero':''}" onclick="setStock(${i},${v})">${v}</button>`).join('')}</div>
+ <div class="rail"><input type="range" min="0" max="${it.par}" step="1" value="${on?s:0}" style="--p:${pct}%" oninput="setStock(${i},this.value,false)">
+  <div class="ticks">${ticks}</div><div class="scale"><span>0</span><span>${esc(t('par'))}: ${it.par}</span></div>
+  ${r?`<div class="est">${r.portions!==null?`<b>${r.portions}</b>${esc(S.lang==='JA'?it.pl:'')} `:''}${esc(t('left'))} <b>~${r.hours}h</b><span class="tag ${lv}">${lv==='ok'?'✅':lv==='warn'?'⚠️':'🚨'} ${esc(lv==='ok'?t('ok'):lv==='warn'?t('warn'):t('crit'))}</span></div>`:''}</div>
+ </div>
+ ${on&&sug>0?`<div class="foot"><div class="l">${esc(t('order'))}</div><div><span class="v">${sug}<small> ${esc(it.u)}</small></span>${r&&r.portions!==null?`<span class="x">・${Math.round(sug*it.per)}${esc(S.lang==='JA'?it.pl:'')}</span>`:`<span class="x">・⏰ +${Math.round((sug/it.par)*(it.hrs||24))}h</span>`}</div></div>`
+   :on?`<div class="foot zero"><div class="l">${esc(t('order'))}</div><div class="v">✓ 0</div></div>`
+   :`<div class="foot zero"><div class="l">${esc(t('order'))}</div><div class="v">${esc(t('stock'))} —</div></div>`}</div>`;
+}
+function inputView(){
+ const sup=SUPPLIERS[S.sup];const idx=idxOf(sup.id);const done=doneSup(sup.id);
+ return `<div class="split"><div class="side"><div class="h">${esc(t('supList'))}</div><div class="row">
+ ${SUPPLIERS.map((x,n)=>{const c=touchedSup(x.id);const ok=doneSup(x.id);
+  return `<button class="sup ${n===S.sup?'on':''}" onclick="S.sup=${n};window.scrollTo(0,0);render()"><div class="av">${x.em}</div><div class="m"><b>${esc(supName(x))}</b><span>${idxOf(x.id).length} ${esc(t('items'))}</span></div><div class="dot ${ok?'ok':c?'n':''}">${ok?'✓':c||''}</div></button>`}).join('')}</div></div>
+ <div class="main"><div class="mhead"><div class="av">${sup.em}</div><div><h2>${esc(supName(sup))}</h2><div class="s">${idx.length} ${esc(t('items'))} · ${esc(t('enterStock'))}</div></div>
+  <div class="r"><span class="cnt">${S.sup+1} / ${SUPPLIERS.length}</span><div class="s">${esc(t('dt'))}</div></div></div>
+ <div class="guest">${esc(t('guests'))} <b>${GUESTS}</b> <button class="ghost" onclick="toast(t('tGuest'))">${esc(t('change'))}</button>
+  <button class="skipall" style="margin-left:auto" onclick="fillRest(${S.sup})">${esc(t('fillRest'))}</button></div>
+ <div class="prog"><div class="bar"><i style="width:${Math.round(touchedSup(sup.id)/idx.length*100)}%"></i></div>
+  <div class="tx"><span><b>${touchedSup(sup.id)}</b> / ${idx.length} ${esc(t('entered'))}</span><span>${esc(done?t('supDone'):t('remainN',idx.length-touchedSup(sup.id)))}</span></div></div>
+ ${!touchedSup(sup.id)?`<div class="hint">${t('hint')}</div>`:''}
+ ${idx.map(itemCard).join('')}
+ ${done?`<button class="jump" onclick="nextSup()">${esc(S.sup<SUPPLIERS.length-1?t('nextSup'):t('toConfirm'))}</button>`:''}</div>
+ <div class="bottom"><div class="in"><button class="btn sec" onclick="prevSup()">${esc(t('backBtn'))}</button>
+ <button class="btn pri" ${done?'':'disabled'} onclick="nextSup()">${esc(S.sup<SUPPLIERS.length-1?t('nextSup'):t('toConfirm'))}</button></div></div></div>`;
+}
+function confirmView(){
+ return `<div class="cwrap"><div style="text-align:center;margin-bottom:14px"><h1 style="font-size:22px">${esc(t('c1'))}</h1><div class="sub">${esc(t('c1s'))}</div></div>
+ <div class="alert">${esc(t('deadline'))}</div>
+ <div class="kpis"><div class="kpi"><div class="k">${esc(t('kOrder'))}</div><div class="v">${orderCount()}</div><div class="u">${esc(t('uItem'))}</div></div>
+ <div class="kpi blue"><div class="k">${esc(t('kSup'))}</div><div class="v">${supWithOrder()}</div><div class="u">${esc(t('uSup'))}</div></div>
+ <div class="kpi"><div class="k">${esc(t('kMan'))}</div><div class="v">${changedCount()}</div><div class="u">${esc(t('uItem'))}</div></div></div>
+ ${SUPPLIERS.map(sp=>{const idx=idxOf(sp.id);const chg=idx.filter(i=>S.final[key(i)]!==undefined&&S.final[key(i)]!==suggest(i)).length;const ord=idx.filter(i=>(finalOf(i)||0)>0).length;
+  return `<div class="grp"><div class="ghead"><div class="av">${sp.em}</div><div><b>${esc(supName(sp))}</b><div class="c">${esc(t('cut'))} ${sp.cut}</div></div>${chg?`<span class="chg">${chg} ${esc(t('changed'))}</span>`:''}</div>
+  <table><thead><tr><th>${esc(t('thItem'))}</th><th class="c">${esc(t('thStock'))}</th><th class="c">${esc(t('thAi'))}</th><th class="c">${esc(t('thFinal'))}</th><th class="c">${esc(t('thUnit'))}</th></tr></thead><tbody>
+  ${idx.map(i=>{const it=ITEMS[i];const f=finalOf(i)||0;const ch=S.final[key(i)]!==undefined&&S.final[key(i)]!==suggest(i);
+   return `<tr><td class="nm"><div class="th">${it.em}</div>${esc(itName(it))}</td>
+   <td class="c" data-l="${esc(t('thStock'))}"><span class="stock">${entered(i)?stockOf(i):'—'}<small>${esc(it.u)}</small></span></td>
+   <td class="c" data-l="${esc(t('thAi'))}"><span class="ai">${suggest(i)??'—'}</span></td>
+   <td class="c" data-l="${esc(t('thFinal'))}"><div class="qcell"><button class="mini" onclick="bumpFinal(${i},-1)">−</button><input class="fin ${ch?'chg':''}" inputmode="numeric" value="${f}" onchange="setFinal(${i},this.value)"><button class="mini" onclick="bumpFinal(${i},1)">＋</button></div></td>
+   <td class="c" data-l="${esc(t('thUnit'))}" style="color:var(--ink2)">${esc(it.u)}</td></tr>`}).join('')}
+  </tbody></table><div class="gfoot"><span>${esc(t('nOrdered',ord))}</span><span class="r ${chg?'':'same'}">${esc(chg?t('nChanged',chg):t('asSug'))}</span></div></div>`}).join('')}
+ </div>
+ <div class="cbar"><div class="in"><div class="saveln">${esc(t('saveHint'))}<button class="b" onclick="toast(t('tSaved'))">${esc(t('saveBtn'))}</button></div>
+ <div class="crow"><button class="back2" onclick="goStep('input')">${esc(t('back'))}</button><div class="msg">${esc(t('editable'))}</div><button class="submit" onclick="submitOrder()">${esc(t('submit'))}</button></div></div></div>`;
+}
+function doneView(){
+ return `<div class="done-w"><div class="ck">✓</div><h2>${esc(t('doneT'))}</h2>
+ <p>${t('doneS',orderCount(),supWithOrder())}</p>
+ <button class="btn pri" style="max-width:240px;margin:22px auto 0" onclick="S.step='home';render()">${esc(t('home'))}</button></div>`;
+}
+/* ============ 操作 ============ */
+function goStep(k){if(k==='input'&&!S.type)S.type='food';if(k==='confirm'&&!allDone()){toast(t('tNeed'));return}S.step=k;window.scrollTo(0,0);render()}
+function setStock(i,v,collapse){const it=ITEMS[i];let n=parseInt(String(v).replace(/[^0-9]/g,''),10);if(isNaN(n))n=0;n=Math.max(0,Math.min(it.par,n));S.stock[key(i)]=n;delete S.final[key(i)];
+ if(collapse!==false)S.collapse[key(i)]=true;
+ render();
+ if(collapse!==false){const idx=idxOf(SUPPLIERS[S.sup].id);const nx=idx.find(j=>!entered(j));if(nx!==undefined){const cards=document.querySelectorAll('.main .item');const el=cards[idx.indexOf(nx)];if(el)el.scrollIntoView({block:'center',behavior:'smooth'})}}}
+function reopen(i){S.collapse[key(i)]=false;render()}
+function fillRest(n){const idx=idxOf(SUPPLIERS[n].id);let c=0;idx.forEach(i=>{if(!entered(i)){S.stock[key(i)]=0;S.collapse[key(i)]=true;c++}});render();toast(c?t('tFill',c):t('tAll'))}
+function bump(i,d){const cur=entered(i)?stockOf(i):0;setStock(i,cur+d)}
+function setFinal(i,v){let n=parseInt(String(v).replace(/[^0-9]/g,''),10);if(isNaN(n))n=0;S.final[key(i)]=Math.max(0,n);render()}
+function bumpFinal(i,d){setFinal(i,(finalOf(i)||0)+d)}
+function nextSup(){if(S.sup<SUPPLIERS.length-1){S.sup++;window.scrollTo(0,0);render()}else goStep('confirm')}
+function prevSup(){if(S.sup>0){S.sup--;window.scrollTo(0,0);render()}else goStep('type')}
+function submitOrder(){S.submitted=true;S.step='done';window.scrollTo(0,0);render();}
+function storeSheet(){return `<div class="veil" onclick="if(event.target===this){S.sheet=null;render()}"><div class="sheet"><div class="grab"></div><div class="sh-body">
+ <div class="sh-ttl">${esc(t('pickStore'))}</div>
+ <div class="stlist">${STORES.map(x=>`<button class="strow ${x.id===STORE_OBJ.id?'on':''}" onclick="pickStoreId('${x.id}')">${esc(S.lang==='JA'?x.ja:x.en)}${x.id===STORE_OBJ.id?' ✓':''}</button>`).join('')}</div>
+ </div></div></div>`}
+function pickStoreId(id){localStorage.setItem('nagi_store',id);const u=new URL(location.href);u.searchParams.set('store',id);location.href=u.toString()}
+function render(){$('app').innerHTML=header()+(S.step==='home'?home():S.step==='type'?typeSel():S.step==='input'?inputView():S.step==='confirm'?confirmView():doneView())+(S.sheet==='store'?storeSheet():'');
+ document.querySelectorAll('input[type=range]').forEach(r=>{const set=()=>r.style.setProperty('--p',(r.value/r.max*100)+'%');set();r.addEventListener('input',set)})}
+Object.assign(window,{goStep,setStock,bump,setFinal,bumpFinal,nextSup,prevSup,submitOrder,render,S,toast,reopen,fillRest,presetVals,setLang,pickStoreId,t});
+render();
+</script>

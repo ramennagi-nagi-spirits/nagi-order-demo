@@ -1,0 +1,3 @@
+{ "name": "NAGI 発注システム", "short_name": "NAGI 発注", "start_url": "./?pwa=1", "scope": "./", "display": "standalone",
+  "background_color": "#FAFAFA", "theme_color": "#141519", "lang": "ja", "orientation": "portrait",
+  "icons": [ { "src": "./icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" } ] }
